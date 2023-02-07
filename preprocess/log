@@ -1,0 +1,76 @@
+NGS.sh: line 71: cutadapt: command not found
+NGS.sh: line 72: cutadapt: command not found
+Traceback (most recent call last):
+  File "/Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/toolkit/drap/preprocess.py", line 2, in <module>
+    import pandas as pd
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/pandas/__init__.py", line 22, in <module>
+    from pandas.compat import is_numpy_dev as _is_numpy_dev
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/pandas/compat/__init__.py", line 14, in <module>
+    from pandas._typing import F
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/pandas/_typing.py", line 9, in <module>
+    from typing import (
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.8/lib/python3.8/typing.py", line 281, in <module>
+    class _Final:
+KeyboardInterrupt
+NGS.sh: line 71: cutadapt: command not found
+NGS.sh: line 72: cutadapt: command not found
+NGS.sh: line 86: bowtie-build: command not found
+NGS.sh: line 87: bowtie: command not found
+NGS.sh: line 91: pyhton3: command not found
+Normaliation Factor: 
+NGS.sh: line 97: bowtie-build: command not found
+NGS.sh: line 98: bowtie: command not found
+rm: /Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/metadata/unset_trimmed.fq: No such file or directory
+rm: /Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/metadata/unset_collapsed.fa: No such file or directory
+rm: /Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/metadata/unset_filtered.fa: No such file or directory
+rm: /Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/metadata/unset_mapped.bwt: No such file or directory
+rm: /Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/metadata/unset_mapped.csv: No such file or directory
+NGS.sh: line 71: cutadapt: command not found
+NGS.sh: line 72: cutadapt: command not found
+NGS.sh: line 86: bowtie-build: command not found
+NGS.sh: line 87: bowtie: command not found
+NGS.sh: line 91: pyhton3: command not found
+Normaliation Factor: 
+NGS.sh: line 97: bowtie-build: command not found
+NGS.sh: line 98: bowtie: command not found
+Traceback (most recent call last):
+  File "/Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/toolkit/drap/preprocess.py", line 2, in <module>
+    import pandas as pd
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/pandas/__init__.py", line 11, in <module>
+    __import__(dependency)
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/numpy/__init__.py", line 153, in <module>
+    from . import fft
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/numpy/fft/__init__.py", line 203, in <module>
+    from . import _pocketfft, helper
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 906, in _find_spec
+  File "<frozen importlib._bootstrap>", line 863, in __enter__
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/toolkit/drap/preprocess.py", line 2, in <module>
+    import pandas as pd
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/pandas/__init__.py", line 11, in <module>
+    __import__(dependency)
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/numpy/__init__.py", line 155, in <module>
+    from . import random
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/numpy/random/__init__.py", line 180, in <module>
+    from . import _pickle
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/numpy/random/_pickle.py", line 1, in <module>
+    from .mtrand import RandomState
+  File "mtrand.pyx", line 1, in init numpy.random.mtrand
+  File "<frozen importlib._bootstrap>", line 389, in parent
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/Users/ryanccj/Documents/研究所/CSBLab/DRAP/preprocess/toolkit/drap/preprocess.py", line 2, in <module>
+    import pandas as pd
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/pandas/__init__.py", line 11, in <module>
+    __import__(dependency)
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/numpy/__init__.py", line 155, in <module>
+    from . import random
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/numpy/random/__init__.py", line 180, in <module>
+    from . import _pickle
+  File "/Users/ryanccj/.virtualenvs/cosbi/lib/python3.8/site-packages/numpy/random/_pickle.py", line 6, in <module>
+    from ._generator import Generator
+  File "<frozen importlib._bootstrap>", line 389, in parent
+KeyboardInterrupt
