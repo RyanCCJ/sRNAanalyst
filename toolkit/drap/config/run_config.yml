@@ -1,0 +1,94 @@
+#============================================
+# Density Analysis
+Density:
+  run: False
+  data:
+    - name: data4
+  columns:
+    - ALL
+    - UTR5
+    - CDS
+    - UTR3
+  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_3region.csv
+  csv_path: /home/ryan/DRAP/analyze/metadata/
+#============================================
+# Metagene Analysis
+Metagene:
+  run: False
+  data:
+    - name: data4
+  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_metagene.csv
+  csv_path: /home/ryan/DRAP/analyze/metadata/
+#============================================
+# Head/Tail Analysis
+Boundary:
+  run: False
+  data:
+    - name: data4
+  columns: 
+    - head
+    - tail
+  limit:
+    - [0,100]
+    - [-100,0]
+  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_boundary.csv
+  csv_path: /home/ryan/DRAP/analyze/metadata/
+#============================================
+# Start/Stop Codon Analysis
+Codon:
+  run: False
+  data:
+    - name: data4
+  columns: 
+    - start codon
+    - stop codon
+  limit:
+    - [-100,100]
+    - [-100,100]
+  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_boundary.csv
+  csv_path: /home/ryan/DRAP/analyze/metadata/
+#============================================
+# User Defined "Region Analysis"
+Region:
+  run: False
+  data:
+  columns:
+  reference:
+  csv_path:
+#============================================
+# User Defined "Position Analysis"
+Position:
+  run: False
+  data:
+  columns:
+  limit:
+  reference:
+  csv_path:
+#============================================
+# Fold Change Analysis
+Fold_Change:
+  run: False
+  data:
+    - name: data4
+  columns:
+    - ALL
+    - UTR5
+    - CDS
+    - UTR3
+  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_3region.csv
+  csv_path: /home/ryan/DRAP/analyze/metadata/
+#============================================
+# Scatter Analysis
+Fold_Change:
+  run: False
+  data:
+    - name: HRDE1_WT
+    - name: HRDE1_CSR1
+  columns:
+    - ALL
+    - UTR5
+    - CDS
+    - UTR3
+  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_3region.csv
+  csv_path: /home/ryan/DRAP/analyze/metadata/
+#============================================

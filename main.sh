@@ -7,12 +7,8 @@
 # 			 Original code.      #
 ##################################
 
-
-#BASE_DIR=$(dirname $(pwd))
-BASE_DIR=$(pwd)
-LOG_FILE=${BASE_DIR}/preprocess/log
 DATA=unset
-
+SCRIPT=unset
 
 #################################
 # Command Line Help Discription #
@@ -29,7 +25,6 @@ display_help() {
 	-h	Show this message.
 	"
 }
-
 
 ###########################
 # Obtain Script Arguments #
@@ -64,10 +59,8 @@ get_options() {
 	fi
 }
 
-
 ################
 # Main Program #
 ################
 get_options $@
-sh pipeline/${SCRIPT}
-#pipeline >> $LOG_FILE 2>&1
+sh pipeline/${SCRIPT} ${DATA}
