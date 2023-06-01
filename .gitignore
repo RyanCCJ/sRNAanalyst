@@ -1,1 +1,5 @@
-data/c_elegans/*
+data/*
+metadata/*
+log/*
+toolkit/bowtie*
+toolkit/sratoolkit*
