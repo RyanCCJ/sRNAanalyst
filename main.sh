@@ -7,7 +7,6 @@
 # 			 Original code.      #
 ##################################
 
-DATA=unset
 SCRIPT=unset
 
 #################################
@@ -15,13 +14,12 @@ SCRIPT=unset
 #################################
 display_help() {
 	echo "
-	NGS sRNA preprocess pipeline with adapter trimming, RNA mapping and normalization.
+	An sRNA-seq preprocess and analysis pipeline tool.
 
-	Usage: NGS.sh [-s] [-d] [-h]
+	Usage: main.sh [-i] [-h]
 
 	Options:
-	-s	Input pipeline script.
-	-d	Input NGS data.
+	-i	Input pipeline script.
 	-h	Show this message.
 	"
 }
@@ -36,13 +34,10 @@ get_options() {
 		echo "Please enter '-h' for more details."
 		exit 0
 	else
-		while getopts ":d:s:h" option
+		while getopts ":i:h" option
 		do
 			case $option in
-				d) # get data path
-					DATA=$OPTARG
-					;;
-				s) # get script path
+				i) # get script path
 					SCRIPT=$OPTARG
 					;;
 				h) # display Help
@@ -63,4 +58,4 @@ get_options() {
 # Main Program #
 ################
 get_options $@
-sh pipeline/${SCRIPT} ${DATA}
+sh pipeline/${SCRIPT}
