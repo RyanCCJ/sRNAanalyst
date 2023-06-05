@@ -1,27 +1,17 @@
-data:
 # metadata after preprocess
+data:
   - name: HRDE1_WT
-    path: /home/ryan/DRAP/analyze/metadata/HRDE1_WT_rep1.csv
+    path: metadata/preprocess/HRDE-1_WT_rep1.csv
     replicate: 1
   
   - name: HRDE1_CSR1
-    path: /home/ryan/DRAP/analyze/metadata/HRDE1_csr1_KO_rep1.csv
-    replicate: 1
-
-  - name: data4
-    path: /home/ryan/DRAP/analyze/metadata/data4.csv
-    replicate: 1
-
-  - name: data4.2
-    path: /home/ryan/DRAP/analyze/metadata/data4.csv
-    replicate: 1
-
-  - name: data5
-    path: /home/ryan/DRAP/analyze/metadata/data4.csv
-    replicate: 1
-
-  - name: data5.2
-    path: /home/ryan/DRAP/analyze/metadata/data4.csv
+    path: metadata/preprocess/HRDE-1_csr1_KO_rep1.csv
     replicate: 1
 
 # metadata after analyze
+metadata:
+  - name: HRDE1_WT
+    path: 
+  
+  - name:
+    path:

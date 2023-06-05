@@ -11,7 +11,7 @@ import multiprocessing
 import os
 import time
 import yaml
-from utility import density_plot, metagene_plot, position_plot, fold_change_plot
+from utility import density_plot, metagene_plot, position_plot, fold_change_plot, scatter_plot
 
 __version__ = "version 1.0"
 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     parser.add_argument("--codon",
                         action="store_true",
                         help="analyze read-count into mutiple regions")
-    parser.add_argument("--fold_change",
+    parser.add_argument("--fold",
                         action="store_true",
                         help="analyze read-count into mutiple regions")
     parser.add_argument("--scatter",
@@ -91,11 +91,12 @@ if __name__ == '__main__':
     T = time.time()
 
     # initialize config
-    run_config = read_config([os.path.abspath(__file__+'/../run_config.yml')])
-    plot_config = read_config([os.path.abspath(__file__+'/../plot_config.yml')])
-    samples = read_config([os.path.abspath(__file__+'/../samples.yml')])
-    stylesheet = read_config([os.path.abspath(__file__+'/../stylesheet.yml')])
-
+    base_path = os.path.abspath(__file__+'/../../config')
+    run_config = read_config([base_path+'/run_config.yml'])
+    plot_config = read_config([base_path+'/plot_config.yml'])
+    samples = read_config([base_path+'/samples.yml'])
+    stylesheet = read_config([base_path+'/stylesheet.yml'])
+    
     if args.density:
         run_config['Density']['data'] = merge_config(
             target = run_config['Density']['data'], 
@@ -128,13 +129,13 @@ if __name__ == '__main__':
         
         position_plot(run_config=run_config['Boundary'],)
 
-        args = [(None,plot_config['Head']),
+        arg = [(None,plot_config['Head']),
                 (None,plot_config['Tail'])]
         pool = multiprocessing.Pool()
-        pool.starmap(position_plot,args)
+        pool.starmap(position_plot,arg)
         pool.close()
         pool.join()
-    
+
 
     if args.codon:
         run_config['Codon']['data'] = merge_config(
@@ -148,15 +149,15 @@ if __name__ == '__main__':
 
         position_plot(run_config=run_config['Codon'])
 
-        args = [(None,plot_config['Start_Codon']),
+        arg = [(None,plot_config['Start_Codon']),
                 (None,plot_config['Stop_Codon'])]
         pool = multiprocessing.Pool()
-        pool.starmap(position_plot,args)
+        pool.starmap(position_plot,arg)
         pool.close()
         pool.join()
     
 
-    if args.fold_change:
+    if args.fold:
         run_config['Fold_Change']['data'] = merge_config(
             target = run_config['Fold_Change']['data'], 
             source = samples['data'],
@@ -165,16 +166,16 @@ if __name__ == '__main__':
         plot_config['Fold_Change'].update(stylesheet['Box_Plot'])
         fold_change_plot(run_config['Fold_Change'], plot_config['Fold_Change'])
     
-
+    
     if args.scatter:
         run_config['Scatter']['data'] = merge_config(
             target = run_config['Scatter']['data'], 
             source = samples['data'],
             on = 'name')
         plot_config['Scatter'].update(stylesheet['General'])
-        plot_config['Scatter'].update(stylesheet['Box_Plot'])
-        fold_change_plot(run_config['Scatter'], plot_config['Scatter'])
-        
+        plot_config['Scatter'].update(stylesheet['Scatter_Plot'])
+        scatter_plot(run_config['Scatter'], plot_config['Scatter'])
+    
 
     print("Time:{:.3f}s".format(time.time()-T))
     

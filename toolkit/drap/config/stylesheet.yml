@@ -26,7 +26,7 @@ Box_Plot:
 
   # Determine the scale of y-axis.
   # eg. normal, log2, log10
-  scale: log2
+  scale: log10
 
   # If it's "multi-data to multi-filter", determine which field should be set as x-axis.
   # eg. data, filter
@@ -58,5 +58,25 @@ Line_Plot:
   # Determine the positions of vertical line in a format of list.
   # eg. [0,100,...]
   vertical_line: None
+
+#============================================
+Scatter_Plot:
+  # Determine the color palette of figure.
+  color: deep
+
+  # Determine the scale of y-axis.
+  # eg. normal, log2, log10
+  scale: log2
+
+  # If it's "multi-data to multi-filter", determine which field should be set as hue.
+  # eg. data, filter
+  hue: data
+
+  # Determine which condition should be set as x-axis.
+  # eg. 1, 2
+  x_axis: 1
+
+  # Add values which not in filters
+  show_others: False
 
 #============================================

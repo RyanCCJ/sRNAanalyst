@@ -1,52 +1,56 @@
 #============================================
 # Density Analysis
 Density:
-  run: False
+  run: True
   data:
-    - name: data4
+    #- name: HRDE1_WT
+    - name: HRDE1_CSR1
   columns:
     - ALL
     - UTR5
     - CDS
     - UTR3
-  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_3region.csv
-  csv_path: /home/ryan/DRAP/analyze/metadata/
+  reference: metadata/analyze/mRNA_WS275_3region.csv
+  csv_path: metadata/analyze/density/
 #============================================
 # Metagene Analysis
 Metagene:
   run: False
   data:
-    - name: data4
-  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_metagene.csv
-  csv_path: /home/ryan/DRAP/analyze/metadata/
+    #- name: HRDE1_WT
+    - name: HRDE1_CSR1
+  reference: metadata/analyze/mRNA_WS275_metagene.csv
+  csv_path: metadata/analyze/metagene/
 #============================================
 # Head/Tail Analysis
 Boundary:
   run: False
   data:
-    - name: data4
+    - name: HRDE1_WT
+    #- name: HRDE1_CSR1
   columns: 
     - head
     - tail
   limit:
     - [0,100]
     - [-100,0]
-  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_boundary.csv
-  csv_path: /home/ryan/DRAP/analyze/metadata/
+  reference: metadata/analyze/mRNA_WS275_boundary.csv
+  csv_path: metadata/analyze/boundary/
 #============================================
 # Start/Stop Codon Analysis
 Codon:
   run: False
   data:
-    - name: data4
+    - name: HRDE1_WT
+    #- name: HRDE1_CSR1
   columns: 
     - start codon
     - stop codon
   limit:
     - [-100,100]
     - [-100,100]
-  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_boundary.csv
-  csv_path: /home/ryan/DRAP/analyze/metadata/
+  reference: metadata/analyze/mRNA_WS275_boundary.csv
+  csv_path: metadata/analyze/codon/
 #============================================
 # User Defined "Region Analysis"
 Region:
@@ -69,17 +73,18 @@ Position:
 Fold_Change:
   run: False
   data:
-    - name: data4
+    - name: HRDE1_WT
+    - name: HRDE1_CSR1
   columns:
     - ALL
     - UTR5
     - CDS
     - UTR3
-  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_3region.csv
-  csv_path: /home/ryan/DRAP/analyze/metadata/
+  reference: metadata/analyze/mRNA_WS275_3region.csv
+  csv_path: metadata/analyze/fold-change/
 #============================================
 # Scatter Analysis
-Fold_Change:
+Scatter:
   run: False
   data:
     - name: HRDE1_WT
@@ -89,6 +94,6 @@ Fold_Change:
     - UTR5
     - CDS
     - UTR3
-  reference: /home/ryan/DRAP/analyze/metadata/mRNA_WS275_3region.csv
-  csv_path: /home/ryan/DRAP/analyze/metadata/
+  reference: metadata/analyze/mRNA_WS275_3region.csv
+  csv_path: metadata/analyze/scatter/
 #============================================

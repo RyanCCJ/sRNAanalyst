@@ -3,3 +3,4 @@ metadata/*
 log/*
 toolkit/bowtie*
 toolkit/sratoolkit*
+toolkit/drap/src/__pycache__/*

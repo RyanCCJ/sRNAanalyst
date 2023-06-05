@@ -2,20 +2,20 @@
 # Density Analysis
 Density:
   plot: True
-  fig_path: /home/ryan/DRAP/static/
+  fig_path: metadata/analyze/density/
   title: 22G binding sites
   data:
-    - name: data4.1
-      path: /home/ryan/DRAP/analyze/metadata/data4_density_ALL-UTR5-CDS-UTR3.csv
-    #- name: data4.2
-    #  path: /home/ryan/DRAP/analyze/metadata/data4_density_ALL-UTR5-CDS-UTR3.csv
+    - name: HRDE1_WT
+      path: metadata/analyze/density/HRDE1_WT_density_ALL-UTR5-CDS-UTR3.csv
+    - name: HRDE1_CSR1
+      path: metadata/analyze/density/HRDE1_CSR1_density_ALL-UTR5-CDS-UTR3.csv
   filter:
     - name: WAGO-1
-      path: /home/ryan/DRAP/analyze/filter/WAGO-1_target
+      path: toolkit/drap/filter/WAGO-1_target
     - name: CSR-1
-      path: /home/ryan/DRAP/analyze/filter/CSR-1_target
-    #- name: Germline_target
-    #  path: /home/ryan/DRAP/analyze/filter/Germline_target
+      path: toolkit/drap/filter/CSR-1_target
+    - name: Germline
+      path: toolkit/drap/filter/Germline_target
   columns:
     #- ALL
     - UTR5
@@ -25,95 +25,99 @@ Density:
 # Metagene Analysis
 Metagene:
   plot: True
-  fig_path: /home/ryan/DRAP/static/
+  fig_path: metadata/analyze/metagene/
   title: 22G binding sites
   data:
-    - name: data4.1
-      path: /home/ryan/DRAP/analyze/metadata/data4_metagene.csv
-    #- name: data4.2
-    #  path: /home/ryan/DRAP/analyze/metadata/data4_metagene.csv
+    - name: HRDE1_WT
+      path: metadata/analyze/metagene/HRDE1_WT_metagene.csv
+    - name: HRDE1_CSR1
+      path: metadata/analyze/metagene/HRDE1_CSR1_metagene.csv
   filter:
     - name: WAGO-1
-      path: /home/ryan/DRAP/analyze/filter/WAGO-1_target
+      path: toolkit/drap/filter/WAGO-1_target
     - name: CSR-1
-      path: /home/ryan/DRAP/analyze/filter/CSR-1_target
+      path: toolkit/drap/filter/CSR-1_target
     - name: Germline
-      path: /home/ryan/DRAP/analyze/filter/Germline_target
+      path: toolkit/drap/filter/Germline_target
 #============================================
 # Head/Tail Analysis
 Head:
   plot: True
-  fig_path: /home/ryan/DRAP/static/head.png
+  fig_path: metadata/analyze/boundary/head.png
   title: 22G binding sites
   data:
-    - name: data4
-      path: /home/ryan/DRAP/analyze/metadata/data4_position_head(0-100).csv
+    - name: HRDE1_WT
+      path: metadata/analyze/boundary/HRDE1_WT_position_head(0-100).csv
+    #- name: HRDE1_CSR1
+    #  path: metadata/analyze/boundary/HRDE1_CSR1_position_head(0-100)csv
   filter:
     - name: WAGO-1
-      path: /home/ryan/DRAP/analyze/filter/WAGO-1_target
+      path: toolkit/drap/filter/WAGO-1_target
     - name: CSR-1
-      path: /home/ryan/DRAP/analyze/filter/CSR-1_target
+      path: toolkit/drap/filter/CSR-1_target
 
 Tail:
   plot: True
-  fig_path: /home/ryan/DRAP/static/tail.png
+  fig_path: metadata/analyze/boundary/tail.png
   title: 22G binding sites
   data:
-    - name: data4
-      path: /home/ryan/DRAP/analyze/metadata/data4_position_tail(-100-0).csv
+    - name: HRDE1_WT
+      path: metadata/analyze/boundary/HRDE1_WT_position_tail(-100-0).csv
+    #- name: HRDE1_CSR1
+    #  path: metadata/analyze/boundary/HRDE1_CSR1_position_tail(-100-0)csv
   filter:
     - name: WAGO-1
-      path: /home/ryan/DRAP/analyze/filter/WAGO-1_target
+      path: toolkit/drap/filter/WAGO-1_target
     - name: CSR-1
-      path: /home/ryan/DRAP/analyze/filter/CSR-1_target
+      path: toolkit/drap/filter/CSR-1_target
 #============================================
 # Start/Stop Codon Analysis
 Start_Codon:
   plot: True
-  fig_path: /home/ryan/DRAP/static/start.png
+  fig_path: metadata/analyze/codon/start.png
   title: 22G binding sites
   data:
-    - name: data4
-      path: /home/ryan/DRAP/analyze/metadata/data4_position_start codon(-100-100).csv
+    - name: HRDE1_WT
+      path: metadata/analyze/codon/HRDE1_WT_position_start codon(-100-100).csv
+    #- name: HRDE1_CSR1
+    #  path: metadata/analyze/codon/HRDE1_CSR1_position_start codon(-100-100).csv
   filter:
     - name: WAGO-1
-      path: /home/ryan/DRAP/analyze/filter/WAGO-1_target
+      path: toolkit/drap/filter/WAGO-1_target
     - name: CSR-1
-      path: /home/ryan/DRAP/analyze/filter/CSR-1_target
+      path: toolkit/drap/filter/CSR-1_target
 
 Stop_Codon:
   plot: True
-  fig_path: /home/ryan/DRAP/static/stop.png
+  fig_path: metadata/analyze/codon/stop.png
   title: 22G binding sites
   data:
-    - name: data4
-      path: /home/ryan/DRAP/analyze/metadata/data4_position_stop codon(-100-100).csv
+    - name: HRDE1_WT
+      path: metadata/analyze/codon/HRDE1_WT_position_stop codon(-100-100).csv
+    #- name: HRDE1_CSR1
+    #  path: metadata/analyze/codon/HRDE1_CSR1_position_stop codon(-100-100).csv
   filter:
     - name: WAGO-1
-      path: /home/ryan/DRAP/analyze/filter/WAGO-1_target
+      path: toolkit/drap/filter/WAGO-1_target
     - name: CSR-1
-      path: /home/ryan/DRAP/analyze/filter/CSR-1_target
+      path: toolkit/drap/filter/CSR-1_target
 #============================================
 # Fold Change Analysis
 Fold_Change:
   plot: True
-  fig_path: /home/ryan/DRAP/static/
+  fig_path: metadata/analyze/fold-change
   title: 22G binding sites
   data:
     # pairing the "control group" and the "experimental group" in sequence
-    - name: data4
-      path: /home/ryan/DRAP/analyze/metadata/data4_fold-change_ALL-UTR5-CDS-UTR3.csv
-    - name: data4.2
-      path: /home/ryan/DRAP/analyze/metadata/data4_fold-change_ALL-UTR5-CDS-UTR3.csv
-    - name: data5
-      path: /home/ryan/DRAP/analyze/metadata/data4_fold-change_ALL-UTR5-CDS-UTR3.csv
-    - name: data5.2
-      path: /home/ryan/DRAP/analyze/metadata/data4_fold-change_ALL-UTR5-CDS-UTR3.csv
+    - name: HRDE1_WT
+      path: metadata/analyze/fold-change/HRDE1_WT_fold-change_ALL-UTR5-CDS-UTR3.csv
+    - name: HRDE1_CSR1
+      path: metadata/analyze/fold-change/HRDE1_CSR1_fold-change_ALL-UTR5-CDS-UTR3.csv
   filter:
     - name: WAGO-1
-      path: /home/ryan/DRAP/analyze/filter/WAGO-1_target
+      path: toolkit/drap/filter/WAGO-1_target
     - name: CSR-1
-      path: /home/ryan/DRAP/analyze/filter/CSR-1_target
+      path: toolkit/drap/filter/CSR-1_target
   columns:
     #-  ALL
     - UTR5
@@ -124,23 +128,28 @@ Fold_Change:
 # Scatter Analysis
 Scatter:
   plot: True
-  fig_path: /home/ryan/DRAP/static/
+  fig_path: metadata/analyze/scatter
   title: 22G binding sites
   data:
     # pairing the "control group" and the "experimental group" in sequence
     - name: HRDE1_WT
-      path: /home/ryan/DRAP/analyze/metadata/HRDE1_WT_region(ALL-UTR5-CDS-UTR3).csv
+      path: metadata/analyze/fold-change/HRDE1_WT_fold-change_ALL-UTR5-CDS-UTR3.csv
     - name: HRDE1_CSR1
-      path: /home/ryan/DRAP/analyze/metadata/HRDE1_CSR1_region(ALL-UTR5-CDS-UTR3).csv
+      path: metadata/analyze/fold-change/HRDE1_CSR1_fold-change_ALL-UTR5-CDS-UTR3.csv
+    #- name: HRDE1_WT
+    #  path: metadata/analyze/fold-change/HRDE1_WT_fold-change_ALL-UTR5-CDS-UTR3.csv
+    #- name: HRDE1_CSR2
+    #  path: metadata/analyze/fold-change/HRDE1_CSR1_fold-change_ALL-UTR5-CDS-UTR3.csv
   filter:
-    - name: WAGO-1
-      path: /home/ryan/DRAP/analyze/filter/WAGO-1_target
-    - name: CSR-1
-      path: /home/ryan/DRAP/analyze/filter/CSR-1_target
+    - name: Germline
+      path: toolkit/drap/filter/Germline_target
+    #- name: CSR-1
+    #  path: toolkit/drap/filter/CSR-1_target
+    #- name: WAGO-1
+    #  path: toolkit/drap/filter/WAGO-1_target
   columns:
     -  ALL
     #- UTR5
     #- CDS
     #- UTR3
-  delete_zero: True
 #============================================

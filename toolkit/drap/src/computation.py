@@ -5,7 +5,7 @@
 # 2023/04/10 Ryan Chung          #
 # 			 Original code.      #
 ##################################
-
+ 
 import itertools
 import matplotlib.pyplot as plt
 import multiprocessing
@@ -14,6 +14,8 @@ import pandas as pd
 import seaborn as sns
 import sys
 from statannot import add_stat_annotation
+# for python>=3.6
+#from statannotations.Annotator import Annotator
 
 #########################
 # Analyze Single Region #
@@ -368,6 +370,10 @@ def box_plot(
                     add_stat_annotation(ax, data=sub_df, x=x, y='value', hue=hue,
                                         box_pairs=pairs, loc='outside', verbose=0,
                                         test=test_method, text_format=test_format)
+                    # for python>=3.6
+                    #annot = Annotator(ax, pairs, data=sub_df, x=x, y='value', hue=hue)
+                    #annot.configure(test=test_method, text_format=test_format, loc='outside', verbose=0)
+                    #annot.apply_and_annotate()
                 except ValueError as error:
                     print("[Error] {}".format(error))
         if condition>1:
@@ -399,7 +405,7 @@ def line_plot(
     xlabel=None,        # xlabel of figure
     vertical_line=None, # positions of vertical line in list
     style='darkgrid',   # backgroud style of figure
-    color='coolworm',   # color palette of figure
+    color='deep',       # color palette of figure
 ):
     # count average and standard-error of a dataframe
     def _count_avg(data):
@@ -534,3 +540,139 @@ def line_plot(
 
     return fig, plot_df
 
+
+################
+# Scatter Plot #
+################
+def scatter_plot(
+    data=None,        # dataframe of reads
+    filter=None,      # reference names which want to analyze
+    columns=None,     # column names which want to analyze
+    hue=None,         # hue of figure  in condition 4
+    title=None,       # title of figure
+    scale='log2',     # scale of y-axis
+    x_axis=None,      # field of x-axis in condition 4
+    x_label=None,     # label of x-axis
+    y_label=None,     # label of y-axis
+    show_others=False,# show other values which not in filters
+    style='darkgrid', # backgroud style of figure
+    color='deep',     # color palette of figure
+):
+    # determine the condition
+    # 1. One-One:     data(1) and filter(1)
+    # 2. One-Multi:   data(1) and filter(N)
+    # 3. Multi-One:   data(N) and filter(1)
+    # 4. Multi-Multi: data(N) and filter(N)
+    data_num = len(data) if data else 0
+    filter_num = len(filter) if filter else 0
+    if data_num<=1:
+        condition = 2
+        hue = 'filter'
+        hue2 = None
+    else:
+        condition = 4
+        if hue==None:
+            hue = 'data'
+            hue2 = 'filter'
+        elif hue=='data':
+            hue2 = 'filter'
+        elif hue=='filter':
+            hue2 = 'data'
+        else:
+            print("[Error]")
+            print("Wrong value (hue={}) of Line_Plot in stylesheet.yml".format(hue))
+            sys.exit(1)
+
+    # initialize necessary parameters
+    # in order to prevent misuse of the configuration file
+    if columns is None:
+        # all columns in dataframe
+        if condition <= 2:
+            columns = data[0]['dataframe'].columns.tolist()
+            columns.remove('ref_id')
+        # intersection columns in dataframes
+        else:
+            columns = []
+            for d in data:
+                if columns:
+                    columns = list(set(columns) & set(d['dataframe'].columns.tolist()))
+                else:
+                    columns = d['dataframe'].columns.tolist()
+            columns.remove('ref_id')
+    orignal_columns = [col.split('_')[0] for col in columns]
+    
+    # merge different dataframes frome wide-format to long-format
+    tmp_df = pd.DataFrame()
+    for d in data:
+        df = d['dataframe']
+        tmp_df2 = pd.DataFrame()
+        for col in orignal_columns:
+            df2 = df[['ref_id',col+'_count',col+'_count_y',col+'_filter']]
+            df2 = df2.rename(columns={
+                col+'_count': 'x',
+                col+'_count_y': 'y',
+                col+'_filter': 'filter'
+                })
+            df2['region'] = col
+            df2 = df2.dropna().reset_index(drop=True)
+            tmp_df2 = pd.concat([tmp_df2,df2])
+        tmp_df2['data'] = d['name']
+        tmp_df = pd.concat([tmp_df,tmp_df2])
+    tmp_df = tmp_df.reset_index(drop=True)
+    
+    # merge dataframe with different filters
+    plot_df = tmp_df[tmp_df['filter']=='invalid'].reset_index(drop=True)
+    valid_df = tmp_df[tmp_df['filter']=='valid'].reset_index(drop=True)
+    valid_df['others'] = True
+    if filter:
+        for f in filter:
+            valid_df.loc[ valid_df['ref_id'].isin(f['id']), 'others'] = False
+            df = valid_df[ valid_df['ref_id'].isin(f['id']) ].drop(columns='others').reset_index(drop=True)
+            df['filter'] = f['name']
+            plot_df = pd.concat([plot_df,df])
+        df = valid_df[ valid_df['others']==True ].drop(columns='others').reset_index(drop=True)
+        if show_others:
+            df['filter'] = 'others'
+            plot_df = pd.concat([plot_df,df])
+    plot_df = plot_df.reset_index(drop=True)
+
+    if scale=='log2':
+        for col in ['x','y']:
+            plot_df[col] = plot_df[col].apply(lambda x: np.log2(x) if x!=0 else x)
+    elif scale=='log10':
+        for col in ['x','y']:
+            plot_df[col] = plot_df[col].apply(lambda x: np.log10(x) if x!=0 else x)
+       
+    # plot figure
+    sns.set(style=style)
+    ax_num = 1 if condition==1 else len(columns)
+    fig = plt.figure(figsize=(1+4*ax_num, 5), dpi=200)
+    for i in range(ax_num):
+        sub_df = plot_df if condition==1 else plot_df[ plot_df['region']==orignal_columns[i] ]
+        ax = fig.add_subplot(1,ax_num,i+1)
+        ax = sns.scatterplot(data=sub_df, x='x', y='y', hue=hue, style=hue2, palette=color, linewidth=0.3, s=10)
+
+        # add base line
+        diag_x = list(ax.get_xlim())
+        diag_y = list(ax.get_ylim())
+        ax.plot(diag_x, diag_y, c='black')
+        ax.plot([diag_x[0]+1, diag_x[1]], [diag_y[0], diag_y[1]-1], c='black' ,linestyle="--")
+        ax.plot([diag_x[0], diag_x[1]-1], [diag_y[0]+1, diag_y[1]], c='black' ,linestyle="--")
+        
+        ax.set_xlabel('')
+        ax.set_ylabel('')
+        if i==0:
+            ax.set_ylabel(y_label, fontsize=14)
+        if condition>1:
+            if i==ax_num-1:
+                ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+            else:
+                ax.get_legend().remove()
+            ax.set_title(orignal_columns[i])
+    fig.text(0.5, -0.01, x_label, ha='center',size=14)
+    if title:
+        fig.suptitle(title, y=-0.05, fontsize=16)
+
+    return fig, plot_df
+    
+    
