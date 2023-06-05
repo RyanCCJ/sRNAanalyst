@@ -58,4 +58,4 @@ get_options() {
 # Main Program #
 ################
 get_options $@
-sh pipeline/${SCRIPT}
+sh ${SCRIPT}
