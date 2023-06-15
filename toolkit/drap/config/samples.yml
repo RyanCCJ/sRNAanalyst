@@ -7,11 +7,3 @@ data:
   - name: HRDE1_CSR1
     path: metadata/preprocess/HRDE-1_csr1_KO_rep1.csv
     replicate: 1
-
-# metadata after analyze
-metadata:
-  - name: HRDE1_WT
-    path: 
-  
-  - name:
-    path:

@@ -3,7 +3,7 @@
 #                                #
 # History:                       #
 # 2023/04/10 Ryan Chung          #
-# 			 Original code.      #
+#            Original code.      #
 ##################################
 
 import argparse
@@ -65,7 +65,6 @@ if __name__ == '__main__':
                         action="version",
                         version="%(prog)s " + __version__)
     parser.add_argument("--config",
-                        action="store_true",
                         help="analyze read-count into mutiple regions")
     parser.add_argument("--density",
                         action="store_true",
@@ -91,7 +90,10 @@ if __name__ == '__main__':
     T = time.time()
 
     # initialize config
-    base_path = os.path.abspath(__file__+'/../../config')
+    if args.config!=None:
+        base_path = args.config
+    else:
+        base_path = os.path.abspath(__file__+'/../../config')
     run_config = read_config([base_path+'/run_config.yml'])
     plot_config = read_config([base_path+'/plot_config.yml'])
     samples = read_config([base_path+'/samples.yml'])

@@ -1,7 +1,7 @@
 #============================================
 # Density Analysis
 Density:
-  run: True
+  run: False
   data:
     #- name: HRDE1_WT
     - name: HRDE1_CSR1
@@ -52,23 +52,6 @@ Codon:
   reference: metadata/analyze/mRNA_WS275_boundary.csv
   csv_path: metadata/analyze/codon/
 #============================================
-# User Defined "Region Analysis"
-Region:
-  run: False
-  data:
-  columns:
-  reference:
-  csv_path:
-#============================================
-# User Defined "Position Analysis"
-Position:
-  run: False
-  data:
-  columns:
-  limit:
-  reference:
-  csv_path:
-#============================================
 # Fold Change Analysis
 Fold_Change:
   run: False
@@ -96,4 +79,21 @@ Scatter:
     - UTR3
   reference: metadata/analyze/mRNA_WS275_3region.csv
   csv_path: metadata/analyze/scatter/
+#============================================
+# User Defined "Region Analysis"
+Region:
+  run: False
+  data:
+  columns:
+  reference:
+  csv_path:
+#============================================
+# User Defined "Position Analysis"
+Position:
+  run: False
+  data:
+  columns:
+  limit:
+  reference:
+  csv_path:
 #============================================
