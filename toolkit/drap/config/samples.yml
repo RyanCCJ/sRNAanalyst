@@ -1,9 +1,0 @@
-# metadata after preprocess
-data:
-  - name: HRDE1_WT
-    path: metadata/preprocess/HRDE-1_WT_rep1.csv
-    replicate: 1
-  
-  - name: HRDE1_CSR1
-    path: metadata/preprocess/HRDE-1_csr1_KO_rep1.csv
-    replicate: 1
