@@ -199,25 +199,25 @@ if __name__ == '__main__':
                         action="version",
                         version="%(prog)s " + __version__)
     parser.add_argument("--config",
-                        help="analyze read-count into mutiple regions")
+                        help="path for storing configuration files (YAML)")
     parser.add_argument("--density",
                         action="store_true",
                         help="analyze read-count into mutiple regions")
     parser.add_argument("--metagene",
                         action="store_true",
-                        help="analyze read-count into mutiple regions")
+                        help="analyze read-count into metagene")
     parser.add_argument("--boundary",
                         action="store_true",
-                        help="analyze read-count into mutiple regions")
+                        help="analyze read-count near boundary")
     parser.add_argument("--codon",
                         action="store_true",
-                        help="analyze read-count into mutiple regions")
+                        help="analyze read-count near start and stop codon")
     parser.add_argument("--fold",
                         action="store_true",
-                        help="analyze read-count into mutiple regions")
+                        help="analyze read-count fold-change in two conditions")
     parser.add_argument("--scatter",
                         action="store_true",
-                        help="analyze read-count into mutiple regions")
+                        help="analyze read-count scatter plot in two conditions")
     args = parser.parse_args()
 
     # main program
