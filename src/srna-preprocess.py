@@ -3,7 +3,6 @@
 #                                #
 # History:                       #
 # 2023/01/20 Ryan Chung          #
-# 			 Original code.      #
 ##################################
 
 import argparse
