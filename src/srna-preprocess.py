@@ -43,7 +43,7 @@ def extract_field(df, name):
 #############################
 # Auto-detect and Read Data #
 #############################
-def read_data(data, fasta_field=None):
+def read_data(data, fasta_field=None, MD_tool=None):
     
     # initialize
     cmt = ""
@@ -144,12 +144,13 @@ def read_data(data, fasta_field=None):
                 'read_seq': [],    # segment SEQuence
                 'read_id': [],     # Query template NAME
                 'ref_id': [],      # References sequence NAME
-                'target_pos': [],  # 0- based leftmost mapping POSition
+                'target_pos': [],  # 0-based leftmost mapping POSition
                 'score': [],       # MAPping Quality
                 'CIGAR': [],       # CIGAR string
-                'MD': [],          # "MD:Z" in <Bowtie2>
+                'MD': [],          # MD string
             }
 
+            MD = True if (MD_tool!=None) else False
             for read in bamfile.fetch(until_eof=True):
                 fields['read_seq'].append(read.query_sequence)
                 fields['read_id'].append(read.query_name)
@@ -157,9 +158,13 @@ def read_data(data, fasta_field=None):
                 fields['target_pos'].append(read.reference_start)
                 fields['score'].append(read.mapping_quality)
                 fields['CIGAR'].append(read.cigarstring)
-                fields['MD'].append(read.get_tag("MD"))
-            bamfile.close()
+                if MD:
+                    try: fields['MD'].append(read.get_tag("MD"))
+                    except: MD = False
 
+            bamfile.close()
+            
+            if not MD: del fields['MD']
             df = pd.DataFrame.from_dict(fields)
             
             # get position (0-based)
@@ -181,9 +186,9 @@ def read_data(data, fasta_field=None):
             sam_dict = {
                 # Mandatory Fields
                 0: 'read_id',    # Query template NAME
-                1: 'FLAG',       # bitwise FLAG
+                1: 'flag',       # bitwise FLAG
                 2: 'ref_id',     # References sequence NAME
-                3: 'target_pos', # 1- based leftmost mapping POSition
+                3: 'target_pos', # 1-based leftmost mapping POSition
                 4: 'score',      # MAPping Quality
                 5: 'CIGAR',      # CIGAR string
                 6: 'RNEXT',      # Ref. name of the mate/next read
@@ -193,12 +198,22 @@ def read_data(data, fasta_field=None):
                 10: 'QUAL',      # ASCII of Phred-scaled base QUALity+33
 
                 # Optional Fiels
-                # Below is for <Bowtie2>
+                # <BWA>
+                14: 'MD1',
+                15: 'MD2',
+                # <Bowtie2>
                 17: 'MD1',
                 18: 'MD2',
             }
-            main_index = [0,2,3,4,5,9]
-            optional_index = [17,18]
+            main_index = [0,1,2,3,4,5,9]
+            if MD_tool == 'BWA':
+                optional_index = [14,15]
+            elif MD_tool == 'Bowtie2':
+                optional_index = [17,18]
+            else:
+                optional_index = []
+
+            MD.tool!=None
 
             try:
                 df = pd.read_csv(data, comment='@', sep='\t', header=None, usecols=main_index+optional_index)
@@ -454,7 +469,7 @@ def run(args):
     comment = ""
     
     if args.input!=None:
-        df,cmt = read_data(args.input, args.field)
+        df,cmt = read_data(args.input, args.field, args.MD_tool)
         comment += cmt
     else:
         print("[Error]")
@@ -536,6 +551,9 @@ if __name__ == '__main__':
                         help="reference data for some operations")
     parser.add_argument("--field",
                         help="detect and extract field in 'fasta' description")
+    parser.add_argument("--MD_tool",
+                        choices=["BWA", "Bowtie2"],
+                        help="detect MD tag in BAM/SAM file from specific alignment tool")
     parser.add_argument("--map",
                         help="map nucleotides from one to another, eg. U to T")
     parser.add_argument("--collapse",

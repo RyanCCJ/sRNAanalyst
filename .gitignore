@@ -1,5 +1,5 @@
-toolkit/sRNAanalyzer/src/__pycache__
-toolkit/sRNAanalyzer/src/build
-toolkit/sRNAanalyzer/src/dist
-toolkit/sRNAanalyzer/src/srna-analyze.spec
-toolkit/sRNAanalyzer/src/srna-preprocess.spec
+src/__pycache__
+src/build
+src/dist
+src/srna-analyze.spec
+src/srna-preprocess.spec
