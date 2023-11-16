@@ -204,7 +204,7 @@ def read_data(data, fasta_field=None, MD_tool=None):
                 17: 'MD1',
                 18: 'MD2',
             }
-            main_index = [0,1,2,3,4,5,9]
+            main_index = [0,2,3,4,5,9]
             if MD_tool == 'BWA':
                 optional_index = [14,15]
             elif MD_tool == 'Bowtie2':
