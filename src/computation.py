@@ -3,7 +3,6 @@
 #                                #
 # History:                       #
 # 2023/04/10 Ryan Chung          #
-#            Original code.      #
 ##################################
  
 import itertools
@@ -109,7 +108,12 @@ def analyze_multiple_region(
         columns.remove('ref_id')
 
     # multiprocessing
-    pool = multiprocessing.Pool()
+    cpu = multiprocessing.cpu_count()
+    if cpu > 8:
+        cpu = int(cpu/2) 
+    elif cpu > 1:
+        cpu = cpu - 1
+    pool = multiprocessing.Pool(cpu)
     args = [(read_df,ref_df,col,set_region,set_count,set_length,set_density) for col in columns]
     df_list = pool.starmap(analyze_single_region,args)
     pool.close()
@@ -221,7 +225,12 @@ def analyze_multiple_position(
     limit=None,   # left-limit and right-limit in list
 ):
     # multiprocessing
-    pool = multiprocessing.Pool()
+    cpu = multiprocessing.cpu_count()
+    if cpu > 8:
+        cpu = int(cpu/2) 
+    elif cpu > 1:
+        cpu = cpu - 1
+    pool = multiprocessing.Pool(cpu)
     args = [(read_df,ref_df,col,lim) for col,lim in zip(columns,limit)]
     df_list = pool.starmap(analyze_single_position,args)
     pool.close()
@@ -358,25 +367,26 @@ def box_plot(
 
     # plot figure
     for i in range(ax_num):
+        ax = axes if ax_num<=1 else axes[i]
         sub_df = plot_df if condition==1 else plot_df[ plot_df['region']==columns[i] ]
-        sns.boxplot(ax=axes[i], data=sub_df, x=x, y='value', hue=hue,
+        sns.boxplot(ax=ax, data=sub_df, x=x, y='value', hue=hue,
                     width=0.3, showfliers=False, showmeans=False,
                     medianprops=dict(color='orange'), palette=color)
-        axes[i].set_xlabel('')
-        axes[i].set_ylabel('')
+        ax.set_xlabel('')
+        ax.set_ylabel('')
         if i==0:
-            axes[i].set_ylabel(y_label, fontsize=14)
+            ax.set_ylabel(y_label, fontsize=14)
         if condition==4:
             if i==ax_num-1:
-                axes[i].legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+                ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
             else:
-                axes[i].get_legend().remove()
-        axes[i].set_title(orignal_columns[i])
+                ax.get_legend().remove()
+        ax.set_title(orignal_columns[i])
 
         # add test to axes
         add_test = False
         pairs = []
-        xticks = [xtick.get_text() for xtick in axes[i].get_xticklabels()]
+        xticks = [xtick.get_text() for xtick in ax.get_xticklabels()]
         if test!=None and test!='None' and (condition>1 or len(columns)>1):
             if test=='U-test':
                 add_test = True
@@ -394,11 +404,11 @@ def box_plot(
                         #pairs = [tuple((x, hue) for x in pair) for pair in pairs for hue in hue_labels]
                         hue_labels = list(itertools.combinations(hue_labels, 2))
                         pairs = [tuple((xtick, h) for h in hue) for hue in hue_labels for xtick in xticks]
-                        axes[i].set_title(orignal_columns[i] + '\n'*(len(pairs)-((len(xticks)-1)*len(hue_labels)))*2 )
+                        ax.set_title(orignal_columns[i] + '\n'*(len(pairs)-((len(xticks)-1)*len(hue_labels)))*2 )
                     else:
-                        axes[i].set_title(orignal_columns[i] + '\n'*len(pairs)*2 )
+                        ax.set_title(orignal_columns[i] + '\n'*len(pairs)*2 )
                     
-                    add_stat_annotation(axes[i], data=sub_df, x=x, y='value', hue=hue,
+                    add_stat_annotation(ax, data=sub_df, x=x, y='value', hue=hue,
                                         box_pairs=pairs, loc='outside', verbose=0,
                                         test=test_method, text_format=test_format)
                     # for python>=3.6
@@ -415,7 +425,7 @@ def box_plot(
             median_list = [round(sub_df.loc[sub_df[x]==xtick,'value'].median(),3) for xtick in xticks]
             new_xticks = ["{}\nnumber:{}\navg:{}\nmedian:{}".format(xtick,num,mean,median) for (xtick,num,mean,median) in zip(xticks,num_lst,mean_list,median_list)]
             xticks_dict = dict(zip(xticks, new_xticks))
-            axes[i].set_xticklabels([ xticks_dict[xtick.get_text()] for xtick in axes[i].get_xticklabels() ], fontsize=10)
+            ax.set_xticklabels([ xticks_dict[xtick.get_text()] for xtick in ax.get_xticklabels() ], fontsize=10)
     
     if title:
         fig.suptitle(title, y=-0.05, fontsize=16)

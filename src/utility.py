@@ -3,8 +3,6 @@
 #                                #
 # History:                       #
 # 2023/04/10 Ryan Chung          #
-#            Original code.      #
-# 2023/07    Django Version.     #
 ##################################
 
 import computation as cp

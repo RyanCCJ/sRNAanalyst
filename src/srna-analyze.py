@@ -154,6 +154,9 @@ def set_config(config, tool, set_stylesheet=True):
 ################
 def run(config, tool):
 
+    cpu = multiprocessing.cpu_count()
+    cpu = 2 if cpu>2 else cpu
+
     if tool=='density':
         density_plot(config['run_config']['Density'], config['plot_config']['Density'])
     
@@ -164,7 +167,7 @@ def run(config, tool):
         position_plot(run_config=config['run_config']['Boundary'],)
         arg = [(None,config['plot_config']['Head']),
                 (None,config['plot_config']['Tail'])]
-        pool = multiprocessing.Pool()
+        pool = multiprocessing.Pool(cpu)
         pool.starmap(position_plot,arg)
         pool.close()
         pool.join()
@@ -173,7 +176,7 @@ def run(config, tool):
         position_plot(run_config=config['run_config']['Codon'])
         arg = [(None,config['plot_config']['Start_Codon']),
                 (None,config['plot_config']['Stop_Codon'])]
-        pool = multiprocessing.Pool()
+        pool = multiprocessing.Pool(cpu)
         pool.starmap(position_plot,arg)
         pool.close()
         pool.join()

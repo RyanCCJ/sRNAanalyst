@@ -212,8 +212,6 @@ def read_data(data, fasta_field=None, MD_tool=None):
             else:
                 optional_index = []
 
-            MD.tool!=None
-
             try:
                 df = pd.read_csv(data, comment='@', sep='\t', header=None, usecols=main_index+optional_index)
             except:
@@ -437,18 +435,18 @@ def normalize(df, factor):
 ##################################
 # Output File in Specific Format #
 ##################################
-def output_file(df, output, cmt='', format='csv', norc=False):
+def output_file(df, output, cmt='', format='csv', no_count=False):
     
     error_msg = get_error('format', format)
     
     if format=='csv':
         output.write(cmt)
-        if norc and ('read_count' in df):
+        if no_count and ('read_count' in df):
             del df['read_count']
         df.to_csv(output, index=False)
 
     elif format=='fasta' or format=='fa':
-        if norc or ('read_count' not in df):
+        if no_count or ('read_count' not in df):
             df['read_id'] = '>' + df['read_id']
         else:
             df['read_id'] = '>' + df['read_id'] + '|' + df['read_count'].astype(str)
@@ -519,7 +517,7 @@ def run(args):
     else:
         file_extension = 'csv'
 
-    output_file(df, args.output, cmt=comment, format=file_extension, norc=args.norc)
+    output_file(df, args.output, cmt=comment, format=file_extension, no_count=args.no_count)
 
 
 ################
@@ -566,9 +564,9 @@ if __name__ == '__main__':
     parser.add_argument("--add_rc",
                         action="store_true",
                         help="add reverse-complement sequence, A to T in default")
-    parser.add_argument("--norc",
+    parser.add_argument("--no_count",
                         action="store_true",
-                        help="output wihout 'read-count' information in 'fasta' format")
+                        help="output wihout 'read-count' information")
     parser.add_argument("--merge",
                         help="merge specific column of reference data to input data")
     parser.add_argument("--distribute",
