@@ -1,0 +1,50 @@
+data:
+  - name: WAGO1_IP_WT
+    path: data/dataset/WAGO1_IP_WT.csv
+    replicate: 1
+    normalization: 10^6 / miRNA total read count
+    norm_facor: 811.03
+    species: C.elegans
+    type: wild-type
+    discription: GSM3578001; WT_CRISPR_WAGO-1-FLAG_IP_sRNA-seq; Caenorhabditis elegans; OTHER (SRR8482951)
+    url: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8482951
+  
+  - name: WAGO1_IP_PRG1_MUT
+    path: data/dataset/WAGO1_IP_PRG1_MUT.csv
+    replicate: 1
+    normalization: 10^6 / miRNA total read count
+    norm_facor: 302.75
+    species: C.elegans
+    type: mutant
+    discription: GSM3577999; piwi_CRISPR_WAGO-1-FLAG_IP_sRNA-seq; Caenorhabditis elegans; OTHER (SRR8482949)
+    url: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8482949
+  
+  - name: CSR1_IP_WT
+    path: data/dataset/CSR1_IP_WT.csv
+    replicate: 1
+    normalization: 10^6 / miRNA total read count
+    norm_factor: 61.48
+    species: C.elegans
+    type: wild-type
+    discription: GSM4694790; FLAG_CSR-1_WT_lateL4_IP_rep1_sRNA-seq; Caenorhabditis elegans; RIP-Seq (SRR12318132)
+    url: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR12318132
+  
+  - name: CSR1_IP_Slicer_MUT
+    path: data/dataset/CSR1_IP_Slicer_MUT.csv
+    replicate: 1
+    normalization: 10^6 / miRNA total read count
+    norm_factor: 199.68
+    species: C.elegans
+    type: mutant
+    discription: GSM4694792; FLAG_CSR-1_ADH_lateL4_IP_rep1_sRNA-seq; Caenorhabditis elegans; RIP-Seq (SRR12318134)
+    url: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR12318134
+
+filter:
+  - name: WAGO-1_target
+    path: data/filter/WAGO-1_target
+  - name: CSR-1_target
+    path: data/filter/CSR-1_target
+  - name: Germline_target
+    path: data/filter/Germline_target
+  - name: Soma_target
+    path: data/filter/Soma_target

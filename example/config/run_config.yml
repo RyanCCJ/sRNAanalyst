@@ -1,0 +1,107 @@
+# If you are using a "relative path" below, 
+# you need to define the base path of the project.
+BASE_DIR: /media/disk1/ryan/sRNAnalyzer/example
+#============================================
+# Density Analysis
+Density:
+  run: True
+  data:
+    - name: WAGO1_IP_WT
+    - name: WAGO1_IP_PRG1_MUT
+  reference: 
+    path: data/mRNA_WS275_3region.csv
+  columns:
+    - UTR5
+    - CDS
+    - UTR3
+  csv_path: output/analyze/region/
+#============================================
+# Metagene Analysis
+Metagene:
+  run: False
+  data:
+    - name: WAGO1_IP_WT
+    - name: WAGO1_IP_PRG1_MUT
+  reference:
+    path: data/mRNA_WS275_metagene.csv
+  csv_path: output/analyze/metagene/
+#============================================
+# Head/Tail Analysis
+Boundary:
+  run: True
+  data:
+    - name: WAGO1_IP_WT
+    - name: WAGO1_IP_PRG1_MUT
+  reference: 
+    path: data/mRNA_WS275_boundary.csv
+  columns: 
+    - head
+    - tail
+  limit:
+    - [0, 100]
+    - [-100, 0]
+  csv_path: output/analyze/boundary/
+#============================================
+# Start/Stop Codon Analysis
+Codon:
+  run: True
+  data:
+    - name: WAGO1_IP_WT
+    - name: WAGO1_IP_PRG1_MUT
+  reference: 
+    path: data/mRNA_WS275_boundary.csv
+  columns:
+    - start codon
+    - stop codon
+  limit:
+    - [-100, 100]
+    - [-100, 100]
+  csv_path: output/analyze/codon/
+#============================================
+# Fold Change Analysis
+Fold_Change:
+  run: False
+  data:
+    - name: WAGO1_IP_WT
+    - name: WAGO1_IP_PRG1_MUT
+  reference: 
+    path: data/mRNA_WS275_3region.csv
+  columns:
+    - UTR5
+    - CDS
+    - UTR3
+  csv_path: output/analyze/region/
+#============================================
+# Scatter Analysis
+Scatter:
+  run: False
+  data:
+    - name: WAGO1_IP_WT
+    - name: WAGO1_IP_PRG1_MUT
+    - name: CSR1_IP_WT
+    - name: CSR1_IP_Slicer_MUT
+  reference: 
+    path: data/mRNA_WS275_3region.csv
+  columns:
+    - UTR5
+    - CDS
+    - UTR3
+  csv_path: output/analyze/region/
+#============================================
+# User Defined "Region Analysis"
+Region:
+  run: False
+  data:
+  reference:
+  columns:
+  csv_path:
+#============================================
+# User Defined "Position Analysis"
+Position:
+  run: False
+  data:
+  reference:
+  columns:
+  limit:
+  csv_path:
+#============================================

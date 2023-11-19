@@ -1,0 +1,131 @@
+# If you are using a "relative path" below, 
+# you need to define the base path of the project.
+BASE_DIR: /media/disk1/ryan/sRNAnalyzer/example
+#============================================
+# Density Analysis
+Density:
+  plot: True
+  fig_path: output/analyze/fig/
+  title: 22G-RNA Density Distribution
+  data:
+    - name: WAGO1_IP_WT
+      #path: output/region/WAGO1_IP_WT_region_UTR5-CDS-UTR3.csv
+    - name: WAGO1_IP_PRG1_MUT
+      #path: output/region/WAGO1_IP_PRG1_MUT_region_UTR5-CDS-UTR3.csv
+  filter:
+    - name: WAGO-1_target
+    - name: CSR-1_target
+  columns:
+    - UTR5
+    - CDS
+    - UTR3
+#============================================
+# Metagene Analysis
+Metagene:
+  plot: True
+  fig_path: output/analyze/fig/
+  title: 22G-RNA Metagene Distribution
+  data:
+    - name: WAGO1_IP_WT
+      #path: output/metagene/WAGO1_IP_WT_metagene.csv
+    - name: WAGO1_IP_PRG1_MUT
+      #path: output/metagene/WAGO1_IP_PRG1_MUT_metagene.csv
+  filter:
+    - name: WAGO-1_target
+    - name: CSR-1_target
+#============================================
+# Head/Tail Analysis
+Head:
+  plot: True
+  fig_path: output/analyze/fig/
+  title: 22G-RNA Head Distribution
+  data:
+    - name: WAGO1_IP_WT
+      #path: output/boundary/WAGO1_IP_WT_position_head(0-100).csv
+    - name: WAGO1_IP_PRG1_MUT
+      #path: output/boundary/WAGO1_IP_PRG1_MUT_position_head(0-100).csv
+  filter:
+    - name: WAGO-1_target
+    - name: CSR-1_target
+
+Tail:
+  plot: True
+  fig_path: output/analyze/fig/
+  title: 22G-RNA Tail Distribution
+  data:
+    - name: WAGO1_IP_WT
+      #path: output/boundary/WAGO1_IP_WT_position_tail(-100-0).csv
+    - name: WAGO1_IP_PRG1_MUT
+      #path: output/boundary/WAGO1_IP_PRG1_MUT_position_tail(-100-0).csv
+  filter:
+    - name: WAGO-1_target
+    - name: CSR-1_target
+#============================================
+# Start/Stop Codon Analysis
+Start_Codon:
+  plot: True
+  fig_path: output/analyze/fig/
+  title: 22G-RNA Start-Codon Distribution
+  data:
+    - name: WAGO1_IP_WT
+      #path: output/codon/WAGO1_IP_WT_position_start codon(-100-100).csv
+    - name: WAGO1_IP_PRG1_MUT
+      #path: output/codon/WAGO1_IP_PRG1_MUT_position_start codon(-100-100).csv
+  filter:
+    - name: WAGO-1_target
+    - name: CSR-1_target
+
+Stop_Codon:
+  plot: True
+  fig_path: output/analyze/fig/
+  title: 22G-RNA Stop-Codon Distribution
+  data:
+    - name: WAGO1_IP_WT
+      #path: output/codon/WAGO1_IP_WT_position_stop codon(-100-100).csv
+    - name: WAGO1_IP_PRG1_MUT
+      #path: output/codon/WAGO1_IP_PRG1_MUT_position_stop codon(-100-100).csv
+  filter:
+    - name: WAGO-1_target
+    - name: CSR-1_target
+#============================================
+# Fold Change Analysis (Paired-data)
+Fold_Change:
+  plot: True
+  fig_path: output/analyze/fig/
+  title: 22G-RNA Fold Change
+  data: # pairing the "control group" and the "experimental group" in sequence
+    - name: WAGO1_IP_WT
+      path: output/region/WAGO1_IP_WT_region_UTR5-CDS-UTR3.csv
+    - name: WAGO1_IP_PRG1_MUT
+      path: output/region/WAGO1_IP_PRG1_MUT_region_UTR5-CDS-UTR3.csv
+  filter:
+    - name: WAGO-1_target
+    - name: CSR-1_target
+  columns:
+    - UTR5
+    - CDS
+    - UTR3
+  delete_zero: True
+#============================================
+# Scatter Analysis (Paired-data)
+Scatter:
+  plot: True
+  fig_path: output/analyze/fig/
+  title: 22G-RNA Scatter
+  data: # pairing the "control group" and the "experimental group" in sequence
+    - name: WAGO1_IP_WT
+      path: output/region/WAGO1_IP_WT_region_UTR5-CDS-UTR3.csv
+    - name: WAGO1_IP_PRG1_MUT
+      path: output/region/WAGO1_IP_PRG1_MUT_region_UTR5-CDS-UTR3.csv
+    #- name: CSR1_IP_WT
+    #  path: output/region/CSR1_IP_WT_region_UTR5-CDS-UTR3.csv
+    #- name: CSR1_IP_Slicer_MUT
+    #  path: output/region/CSR1_IP_Slicer_MUT_region_UTR5-CDS-UTR3.csv
+  filter:
+    - name: CSR-1_target
+    - name: WAGO-1_target
+  columns:
+    - UTR5
+    - CDS
+    - UTR3
+#============================================
