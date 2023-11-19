@@ -16,6 +16,13 @@ General:
   # eg. png, svg
   fig_format: png
 
+  # Merge all figures in "multi-data to multi-filter".
+  merge: False
+
+  # If it's "multi-data to multi-filter", determine which field should be set separate.
+  # eg. data, filter
+  segmentation: data
+
 #============================================
 Box_Plot:
   # Determine the color palette of figure.
@@ -27,10 +34,6 @@ Box_Plot:
   # Determine the scale of y-axis.
   # eg. normal, log2, log10
   scale: log10
-
-  # If it's "multi-data to multi-filter", determine which field should be set as x-axis.
-  # eg. data, filter
-  x_axis: data
 
   # Determine which testing method to use.
   # eg. None, U-test, T-test
@@ -46,10 +49,6 @@ Box_Plot:
 Line_Plot:
   # Determine the color palette of figure.
   color: deep
-
-  # If it's "multi-data to multi-filter", determine which field should be set as hue.
-  # eg. data, filter
-  hue: data
 
   # Determine the xlabel of figure.
   # eg. region(%), nt
@@ -67,10 +66,6 @@ Scatter_Plot:
   # Determine the scale of y-axis.
   # eg. normal, log2, log10
   scale: log2
-
-  # If it's "multi-data to multi-filter", determine which field should be set as hue.
-  # eg. data, filter
-  hue: data
 
   # Determine which condition should be set as x-axis.
   # eg. 1, 2
