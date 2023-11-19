@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import sys
+from tqdm import tqdm
 from statannot import add_stat_annotation
 # for python>=3.6
 #from statannotations.Annotator import Annotator
@@ -115,7 +116,7 @@ def analyze_multiple_region(
         cpu = cpu - 1
     pool = multiprocessing.Pool(cpu)
     args = [(read_df,ref_df,col,set_region,set_count,set_length,set_density) for col in columns]
-    df_list = pool.starmap(analyze_single_region,args)
+    df_list = pool.starmap(analyze_single_region, tqdm(args))
     pool.close()
     pool.join()
 
@@ -232,7 +233,7 @@ def analyze_multiple_position(
         cpu = cpu - 1
     pool = multiprocessing.Pool(cpu)
     args = [(read_df,ref_df,col,lim) for col,lim in zip(columns,limit)]
-    df_list = pool.starmap(analyze_single_position,args)
+    df_list = pool.starmap(analyze_single_position, tqdm(args))
     pool.close()
     pool.join()
 
@@ -348,19 +349,23 @@ def box_plot(
     for i in range(ax_num):
         sub_df = plot_df if condition==1 else plot_df[ plot_df['region']==columns[i] ]
         x_lst = sub_df[x].drop_duplicates().to_list()
+        h_lst = sub_df[hue].drop_duplicates().to_list() if (condition==4) else [False]
         for j in range(len(x_lst)):
-            tmp = sub_df[ sub_df[x]==x_lst[j] ]
-            max_val = tmp['value'].max()
-            min_val = tmp['value'].min()
-            q1 = tmp['value'].quantile(0.25)
-            q3 = tmp['value'].quantile(0.75)
-            iqr = q3 - q1
-            upper_limit = q3 + 1.5 * iqr
-            upper_limit = max_val if max_val < upper_limit else upper_limit
-            lower_limit = q1 - 1.5 * iqr
-            lower_limit = min_val if min_val > lower_limit else lower_limit
-            max_yticks = upper_limit if upper_limit > max_yticks else max_yticks
-            min_yticks = lower_limit if lower_limit < min_yticks else min_yticks
+            for k in range(len(h_lst)):
+                tmp = sub_df[ sub_df[x]==x_lst[j] ]
+                if h_lst[k]:
+                    tmp = tmp[ tmp[hue]==h_lst[k] ]
+                max_val = tmp['value'].max()
+                min_val = tmp['value'].min()
+                q1 = tmp['value'].quantile(0.25)
+                q3 = tmp['value'].quantile(0.75)
+                iqr = q3 - q1
+                upper_limit = q3 + 1.5 * iqr
+                upper_limit = max_val if max_val < upper_limit else upper_limit
+                lower_limit = q1 - 1.5 * iqr
+                lower_limit = min_val if min_val > lower_limit else lower_limit
+                max_yticks = upper_limit if upper_limit > max_yticks else max_yticks
+                min_yticks = lower_limit if lower_limit < min_yticks else min_yticks
     ymax = max_yticks + 0.05*(max_yticks-min_yticks)
     ymin = min_yticks - 0.05*(max_yticks-min_yticks)
     plt.ylim(ymin, ymax)

@@ -12,8 +12,6 @@ import numpy as np
 import pandas as pd
 import sys
 
-BASE_DIR = os.path.abspath(__file__+'/../../../../')
-
 ## Main Tools
 
 ################
@@ -27,8 +25,8 @@ def density_plot(run_config=None, plot_config=None):
         config_list = recombine_dict(run_config, iter=['data'])
 
         for config in config_list:
-            data_df, cmt = read_data(config['data'])
-            reference_df, _ = read_data(config['reference'])
+            data_df, cmt = read_data(config['data'], config['BASE_DIR'])
+            reference_df, _ = read_data(config['reference'], config['BASE_DIR'])
             config['comment'] = cmt
 
             df_list = cp.analyze_multiple_region(
@@ -39,11 +37,14 @@ def density_plot(run_config=None, plot_config=None):
                 set_count=True,             # output with "_count" column
                 set_density=True,           # output with "_density" column
             )
+
             column_name = '-'.join(config['columns'])
             metadata = pd.concat(df_list, axis=1).reset_index()
             metapath = os.path.join(run_config['csv_path'],
                                     "{}_region_{}.csv".format(config['data']['name'],column_name))
-            with open(os.path.join(BASE_DIR,metapath), "w") as f:
+            if plot_config and plot_config['data']:
+                append_config(plot_config['data'], config['data']['name'], path=metapath, dataframe=metadata)
+            with open(os.path.join(config['BASE_DIR'],metapath), "w") as f:
                 config['comment'] += "# analyze_regions={}\n".format(config['columns'])
                 f.write(config['comment'])
                 metadata.to_csv(f, index=False)
@@ -51,13 +52,10 @@ def density_plot(run_config=None, plot_config=None):
     # plot
     if plot_config and plot_config['plot']:
 
-        #config_list = recombine_dict(plot_config,
-        #                             iter=['scale','test','test_format','fig_format'])
-
         # read datas and filters into the configuration file
         for i, data in enumerate(plot_config['data']):
-            plot_config['data'][i]['dataframe'], _ = read_data(data)
-        read_filter(plot_config['filter'])
+            plot_config['data'][i]['dataframe'], _ = read_data(data, plot_config['BASE_DIR'])
+        read_filter(plot_config['filter'], plot_config['BASE_DIR'])
         
         # special setting
         plot_config['columns'] = [ x+'_den' for x in plot_config['columns'] ]
@@ -69,7 +67,11 @@ def density_plot(run_config=None, plot_config=None):
             y_label = 'counts/nt'
 
         seg = plot_config['segmentation']
-        if plot_config['merge'] or len(plot_config['data'])<=1 or len(plot_config['filter'])<=1:
+        if plot_config['merge'] or plot_config['data']==None or plot_config['filter']==None:
+            config_list = [ plot_config ]
+        elif plot_config['data'] and len(plot_config['data'])<=1:
+            config_list = [ plot_config ]
+        elif plot_config['filter'] and len(plot_config['filter'])<=1:
             config_list = [ plot_config ]
         else: 
             config_list = recombine_dict(plot_config, iter=[seg])
@@ -96,13 +98,7 @@ def density_plot(run_config=None, plot_config=None):
                 style=config['style'],              # backgroud style of figure
                 color=config['color'],              # color palette of figure
             )
-
-            # set name of figure
-            #column_name = '_' + '-'.join(config['columns']) if config['columns']!=None else ''
-            #scale_name = '_' + config['scale'] if config['scale']!=None else ''
-            #test_name = '_' + config['test'] if config['test']!=None else ''
-            #fromat_name = '_' + config['test_format'] if ['config.test']!=None else ''
-            fig.savefig(os.path.join(BASE_DIR,"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
+            fig.savefig(os.path.join(config['BASE_DIR'],"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
 
 
 #################
@@ -116,8 +112,8 @@ def metagene_plot(run_config=None, plot_config=None):
         config_list = recombine_dict(run_config, iter=['data'])
 
         for config in config_list:
-            data_df, cmt = read_data(config['data'])
-            reference_df, _ = read_data(config['reference'])
+            data_df, cmt = read_data(config['data'], config['BASE_DIR'])
+            reference_df, _ = read_data(config['reference'], config['BASE_DIR'])
             config['comment'] = cmt
 
             df_list = cp.analyze_multiple_region(
@@ -131,7 +127,9 @@ def metagene_plot(run_config=None, plot_config=None):
             metadata.columns = [ col.split('_')[0] if col!='ref_id' else col for col in metadata.columns ]
             metapath = os.path.join(run_config['csv_path'],
                                     "{}_metagene.csv".format(config['data']['name']))
-            with open(os.path.join(BASE_DIR,metapath), "w") as f:
+            if plot_config and plot_config['data']:
+                append_config(plot_config['data'], config['data']['name'], path=metapath, dataframe=metadata)
+            with open(os.path.join(config['BASE_DIR'],metapath), "w") as f:
                 config['comment'] += "# metagene_bin=100\n"
                 f.write(config['comment'])
                 metadata.to_csv(f, index=False)
@@ -139,12 +137,10 @@ def metagene_plot(run_config=None, plot_config=None):
     # plot
     if plot_config and plot_config['plot']:
         
-        #config_list = recombine_dict(plot_config, iter=['fig_format'])
-
         # read datas and filters into the configuration file
         for i, data in enumerate(plot_config['data']):
-            plot_config['data'][i]['dataframe'], _ = read_data(data)
-        read_filter(plot_config['filter'])
+            plot_config['data'][i]['dataframe'], _ = read_data(data, plot_config['BASE_DIR'])
+        read_filter(plot_config['filter'], plot_config['BASE_DIR'])
 
         seg = plot_config['segmentation']
         if plot_config['merge'] or len(plot_config['data'])<=1 or len(plot_config['filter'])<=1:
@@ -168,7 +164,7 @@ def metagene_plot(run_config=None, plot_config=None):
                 color=config['color'],       # color palette of figure
                 xlabel='region(%)',          # xlabel of figure
             )
-            fig.savefig(os.path.join(BASE_DIR,"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
+            fig.savefig(os.path.join(config['BASE_DIR'],"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
 
 
 #################
@@ -182,8 +178,8 @@ def position_plot(run_config=None, plot_config=None):
         config_list = recombine_dict(run_config, iter=['data'])
 
         for config in config_list:
-            data_df, cmt = read_data(config['data'])
-            reference_df, _ = read_data(config['reference'])
+            data_df, cmt = read_data(config['data'], config['BASE_DIR'])
+            reference_df, _ = read_data(config['reference'], config['BASE_DIR'])
             config['comment'] = cmt
 
             df_list = cp.analyze_multiple_position(
@@ -193,8 +189,10 @@ def position_plot(run_config=None, plot_config=None):
                 limit=config['limit'],     # left-limit and right-limit in list
             )
             for df,col,limit in zip(df_list,config['columns'],config['limit']):
-                metapath = os.path.join(BASE_DIR,run_config['csv_path'],
+                metapath = os.path.join(config['BASE_DIR'],run_config['csv_path'],
                                         "{}_position_{}({}-{}).csv".format(config['data']['name'],col,limit[0],limit[1]))
+                if plot_config and plot_config['data']:
+                    append_config(plot_config['data'], config['data']['name'], path=metapath, dataframe=df)
                 with open(metapath, "w") as f:
                     f.write(config['comment'] + "# position={}({}-{})\n".format(col,limit[0],limit[1]))
                     df.to_csv(f, index=False)
@@ -202,12 +200,10 @@ def position_plot(run_config=None, plot_config=None):
     # plot
     if plot_config and plot_config['plot']:
         
-        #config_list = recombine_dict(plot_config, iter=['fig_format'])
-
         # read datas and filters into the configuration file
         for i, data in enumerate(plot_config['data']):
-            plot_config['data'][i]['dataframe'], _ = read_data(data)
-        read_filter(plot_config['filter'])
+            plot_config['data'][i]['dataframe'], _ = read_data(data, plot_config['BASE_DIR'])
+        read_filter(plot_config['filter'], plot_config['BASE_DIR'])
 
         seg = plot_config['segmentation']
         if plot_config['merge'] or len(plot_config['data'])<=1 or len(plot_config['filter'])<=1:
@@ -232,7 +228,7 @@ def position_plot(run_config=None, plot_config=None):
                 xlabel='nt',                 # xlabel of figure
                 vertical_line=[0],           # positions of vertical line in list
             )
-            fig.savefig(os.path.join(BASE_DIR,"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
+            fig.savefig(os.path.join(config['BASE_DIR'],"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
 
 
 ####################
@@ -246,8 +242,8 @@ def fold_change_plot(run_config=None, plot_config=None):
         config_list = recombine_dict(run_config, iter=['data'])
 
         for config in config_list:
-            data_df, cmt = read_data(config['data'])
-            reference_df, _ = read_data(config['reference'])
+            data_df, cmt = read_data(config['data'], config['BASE_DIR'])
+            reference_df, _ = read_data(config['reference'], config['BASE_DIR'])
             config['comment'] = cmt
 
             df_list = cp.analyze_multiple_region(
@@ -260,8 +256,10 @@ def fold_change_plot(run_config=None, plot_config=None):
             )
             column_name = '-'.join(config['columns'])
             metadata = pd.concat(df_list, axis=1).reset_index()
-            metapath = os.path.join(BASE_DIR,run_config['csv_path'],
+            metapath = os.path.join(config['BASE_DIR'],run_config['csv_path'],
                                     "{}_region_{}.csv".format(config['data']['name'],column_name))
+            if plot_config and plot_config['data']:
+                append_config(plot_config['data'], config['data']['name'], path=metapath, dataframe=metadata)
             with open(metapath, "w") as f:
                 config['comment'] += "# analyze_regions={}\n".format(config['columns'])
                 f.write(config['comment'])
@@ -275,14 +273,14 @@ def fold_change_plot(run_config=None, plot_config=None):
         alpha = np.inf
         plot_config['columns'] = [ x+'_count' for x in plot_config['columns'] ]
         for i, data in enumerate(plot_config['data']):
-            df, _ = read_data(data)
+            df, _ = read_data(data, plot_config['BASE_DIR'])
             df = df.set_index('ref_id')
             df = df[ plot_config['columns'] ]
             if plot_config['delete_zero']:
                     df = df.replace(0.0, np.nan)
             plot_config['data'][i]['dataframe'] = df
             alpha = min(alpha, df.replace(0.0, np.nan).min().min())
-        read_filter(plot_config['filter'])
+        read_filter(plot_config['filter'], plot_config['BASE_DIR'])
 
         # special setting
         if plot_config['scale']=='log2': 
@@ -340,7 +338,7 @@ def fold_change_plot(run_config=None, plot_config=None):
                 style=config['style'],              # backgroud style of figure
                 color=config['color'],              # color palette of figure
             )
-            fig.savefig(os.path.join(BASE_DIR,"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
+            fig.savefig(os.path.join(config['BASE_DIR'],"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
     
 
 ################
@@ -354,8 +352,8 @@ def scatter_plot(run_config=None, plot_config=None):
         config_list = recombine_dict(run_config, iter=['data'])
 
         for config in config_list:
-            data_df, cmt = read_data(config['data'])
-            reference_df, _ = read_data(config['reference'])
+            data_df, cmt = read_data(config['data'], config['BASE_DIR'])
+            reference_df, _ = read_data(config['reference'], config['BASE_DIR'])
             config['comment'] = cmt
 
             df_list = cp.analyze_multiple_region(
@@ -368,8 +366,10 @@ def scatter_plot(run_config=None, plot_config=None):
             )
             column_name = '-'.join(config['columns'])
             metadata = pd.concat(df_list, axis=1).reset_index()
-            metapath = os.path.join(BASE_DIR,run_config['csv_path'],
+            metapath = os.path.join(config['BASE_DIR'],run_config['csv_path'],
                                     "{}_region_{}.csv".format(config['data']['name'],column_name))
+            if plot_config and plot_config['data']:
+                append_config(plot_config['data'], config['data']['name'], path=metapath, dataframe=metadata)
             with open(metapath, "w") as f:
                 config['comment'] += "# analyze_regions={}\n".format(config['columns'])
                 f.write(config['comment'])
@@ -383,12 +383,12 @@ def scatter_plot(run_config=None, plot_config=None):
         alpha = np.inf
         plot_config['columns'] = [ x+'_count' for x in plot_config['columns'] ]
         for i, data in enumerate(plot_config['data']):
-            df, _ = read_data(data)
+            df, _ = read_data(data, plot_config['BASE_DIR'])
             df = df.set_index('ref_id')
             df = df[ plot_config['columns'] ]
             plot_config['data'][i]['dataframe'] = df
             alpha = min(alpha, df.replace(0.0, np.nan).min().min())
-        read_filter(plot_config['filter'])
+        read_filter(plot_config['filter'], plot_config['BASE_DIR'])
 
         # special setting
         if plot_config['scale']=='log2': 
@@ -457,7 +457,7 @@ def scatter_plot(run_config=None, plot_config=None):
                 style=config['style'],              # backgroud style of figure
                 color=config['color'],              # color palette of figure
             )
-            fig.savefig(os.path.join(BASE_DIR,"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
+            fig.savefig(os.path.join(config['BASE_DIR'],"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
         
 
 ## Other Functions
@@ -505,7 +505,7 @@ def recombine_dict(dict_, iter=[]):
 #############################
 # Auto-detect and Read Data #
 #############################
-def read_data(data):
+def read_data(data, BASE_DIR=None):
 
     cmt,path = "",""
     if isinstance(data, str):
@@ -515,10 +515,13 @@ def read_data(data):
             df = data['dataframe']
             return df, cmt
         else:
-            path = os.path.join(BASE_DIR,data['path'])
+            try:
+                path = os.path.join(BASE_DIR,data['path'])
+            except:
+                print("[Error] Unknown path of file: {}".format(data['name']))
+                sys.exit(1)
     else: 
-        print("[Error]")
-        print("Unknown type of {}, which can only be 'str' or 'dict'.".format(data))
+        print("[Error] Unknown type of {}, which can only be 'str' or 'dict'.".format(data))
         sys.exit(1)
     
     _, file_extension = os.path.splitext(path)
@@ -532,8 +535,7 @@ def read_data(data):
             header = line[:-1].split(',')
             df = pd.read_csv(f, comment='#', names=header)
     else:
-        print("[Error]")
-        print("Unknown file extension {}, which can only be 'csv'.".format(file_extension))
+        print("[Error] Unknown file extension {}, which can only be 'csv'.".format(file_extension))
         sys.exit(1)
     
     return df, cmt
@@ -542,10 +544,23 @@ def read_data(data):
 ########################
 # Read ID into Filters #
 ########################
-def read_filter(filter):
+def read_filter(filter, BASE_DIR):
     if filter:
         for ft in filter:
             if 'id' not in ft:
                 if 'path' in ft:
                     with open(os.path.join(BASE_DIR,ft['path']), 'r') as f:
                         ft['id'] = f.read().splitlines()
+
+
+####################################
+# Append Run-Config to Plot-Config #
+####################################
+def append_config(config, name, path=None, dataframe=None):
+    for data in config:
+        if data['name']==name:
+            if path is not None:
+                data['path'] = path
+            if dataframe is not None:
+                data['dataframe'] = dataframe
+            break
