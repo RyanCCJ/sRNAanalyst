@@ -11,26 +11,22 @@
 > This version incorporates numerous improvements in performance and architecture, including the addition of a new preprocessing workflow. For information on the previous version and related research paper, please refer to the [RDT](https://github.com/RyanCCJ/RDT) project.
 
 ## Downstream Tools:
-1. **Density Distribution:** Enables observation of distribution across different regions, facilitating the comparative analysis of results across different conditions and target genes.
+1. **Density Distribution:** Enables observation of distribution across different regions, facilitating the comparative analysis of results across different conditions and target genes.  
    <img src="example/output/analyze/fig/Density_filter.png" width=600 />
 
-2. **Metagene Distribution:** Allows the overlay of target genes for an overview of their collective distribution patterns.
+2. **Metagene Distribution:** Allows the overlay of target genes for an overview of their collective distribution patterns.  
    <img src="example/output/analyze/fig/Metagene.png" width=400 />
 
-3. **Position Distribution:** Facilitates observation of distribution around specific positions, currently including boundaries and start/stop codons.
-   <div style="display: flex;">
-   <div style="flex:50%; padding: 5px;">
-   <img src="example/output/analyze/fig/Start_Codon.png" style="width:100%"/>
-   </div>
-   <div style="flex:50%; padding: 5px;">
-   <img src="example/output/analyze/fig/Stop_Codon.png" style="width:100%"/>
-   </div>
+3. **Position Distribution:** Facilitates observation of distribution around specific positions, currently including boundaries and start/stop codons.  
+   <div>
+   <img align=top src="example/output/analyze/fig/Start_Codon.png"/>
+   <img align=top src="example/output/analyze/fig/Stop_Codon.png"/>
    </div>
 
-4. **Fold-change Plot:** Permits the examination of the magnitude of changes between two conditions within different regions.
+4. **Fold-change Plot:** Permits the examination of the magnitude of changes between two conditions within different regions.  
    <img src="example/output/analyze/fig/Fold_Change.png" width=600 />
 
-5. **Scatter Plot:** Enables the observation of the relative distribution of two conditions within different regions.
+5. **Scatter Plot:** Enables the observation of the relative distribution of two conditions within different regions.  
    <img src="example/output/analyze/fig/Scatter.png" width=600 />
 
 ## Getting Started:
@@ -48,7 +44,7 @@ sh 22G_preprocess.sh
 # perform downstream analysis and generate various analysis graphics
 sh 22G_analyze.sh
 ```
-**Note:** The examples in this project require approximately **530GB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [documentation]() for manual setup.
+**Note:** The examples in this project require approximately **530GB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [doc]() for manual setup.
 
 ## Web Tool:
 
@@ -80,7 +76,8 @@ To see full documentation, please check this project's [wiki](https://github.com
 - scipy >= 1.1
 - tqdm >= 4.0
 - PyYAML >= 5.3
-- statannot = 0.2.3 (Please refer to the [documentation]() for some important considerations.)
+- statannot = 0.2.3  
+(Please refer to the [doc]() for some important considerations.)
 
 ## LICENSE
 Please refer to our [MIT license](https://github.com/RyanCCJ/sRNAnalyzer/blob/master/LICENSE).
