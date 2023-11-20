@@ -33,7 +33,7 @@ Box_Plot:
 
   # Determine the scale of y-axis.
   # eg. normal, log2, log10
-  scale: log10
+  scale: normal
 
   # Determine which testing method to use.
   # eg. None, U-test, T-test
