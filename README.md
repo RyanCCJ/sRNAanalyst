@@ -1,7 +1,7 @@
 # sRNAanalyzer
 A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Species, Conditions, and Target Genes
 
-## Main Features:
+## Main Features
 ### Universal Preprocessing Tool:
 - Provides a versatile preprocessing tool that seamlessly integrates with various utilities such as Cutadapt and Bowtie, enabling the construction of customized preprocessing workflows.
 
@@ -10,18 +10,20 @@ A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Species, Cond
 
 > This version incorporates numerous improvements in performance and architecture, including the addition of a new preprocessing workflow. For information on the previous version and related research paper, please refer to the [RDT](https://github.com/RyanCCJ/RDT) project.
 
-## Downstream Tools:
+## Downstream Tools
 1. **Density Distribution:** Enables observation of distribution across different regions, facilitating the comparative analysis of results across different conditions and target genes.  
    <img src="example/output/analyze/fig/Density_filter.png" width=600 />
 
 2. **Metagene Distribution:** Allows the overlay of target genes for an overview of their collective distribution patterns.  
    <img src="example/output/analyze/fig/Metagene.png" width=400 />
 
-3. **Position Distribution:** Facilitates observation of distribution around specific positions, currently including boundaries and start/stop codons.  
-   <div>
-   <img align=top src="example/output/analyze/fig/Start_Codon.png"/>
-   <img align=top src="example/output/analyze/fig/Stop_Codon.png"/>
-   </div>
+3. **Position Distribution:** Facilitates observation of distribution around specific positions, currently including boundaries and start/stop codons. 
+   <table>
+   <tr>
+      <td valign="top"><img src="example/output/analyze/fig/Start_Codon.png"/></td>
+      <td valign="top"><img src="example/output/analyze/fig/Stop_Codon.png"/></td>
+   </tr>
+   </table>
 
 4. **Fold-change Plot:** Permits the examination of the magnitude of changes between two conditions within different regions.  
    <img src="example/output/analyze/fig/Fold_Change.png" width=600 />
@@ -29,7 +31,7 @@ A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Species, Cond
 5. **Scatter Plot:** Enables the observation of the relative distribution of two conditions within different regions.  
    <img src="example/output/analyze/fig/Scatter.png" width=600 />
 
-## Getting Started:
+## Getting Start
 ```sh
 # download this project
 git clone https://github.com/RyanCCJ/sRNAanalyzer.git
@@ -44,11 +46,12 @@ sh 22G_preprocess.sh
 # perform downstream analysis and generate various analysis graphics
 sh 22G_analyze.sh
 ```
-**Note 1:** The examples in this project require approximately **530GB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [doc]() for manual setup.
 
-**Note 2:** It is recommended to independently compose a suitable workflow for applying preprocessing tool and to use or import the analysis tool accordingly. The two main programs are located in the `src/` directory, namely `srna_preprocess.py` and `srna_analysis.py`. The analysis tool will additionally require two additional modules: `utility.py` and `computation.py`. For detailed usage instructions, please refer to the [doc]().
+It is recommended to independently compose a suitable workflow for applying preprocessing tool and to use or import the analysis tool accordingly. The two main programs are located in the `src/` directory, namely `srna_preprocess.py` and `srna_analysis.py`. The analysis tool will additionally require two additional modules: `utility.py` and `computation.py`. For detailed usage instructions, please refer to the [doc]().
 
-## Web Tool:
+**Note:** The examples in this project require approximately **530MB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [doc]() for manual setup.
+
+## Web Tool
 
 If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.ncku.edu.tw/sRNAanalyzer/).
 
