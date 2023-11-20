@@ -18,7 +18,7 @@ Density:
 #============================================
 # Metagene Analysis
 Metagene:
-  run: False
+  run: True
   data:
     - name: WAGO1_IP_WT
     - name: WAGO1_IP_PRG1_MUT
