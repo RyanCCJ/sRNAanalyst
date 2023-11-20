@@ -1,5 +1,5 @@
 # sRNAanalyzer
-> A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Species, Conditions, and Target Genes
+A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Species, Conditions, and Target Genes
 
 ## Main Features:
 ### Universal Preprocessing Tool:
@@ -35,7 +35,7 @@
 git clone https://github.com/RyanCCJ/sRNAanalyzer.git
 cd sRNAanalyzer
 
-# an example of c.elegans 22G-RNAs is provided
+# an example of worm (C.elegans) 22G-RNAs is provided
 cd example/script/
 
 # perform preprocessing and generate various intermediate files
@@ -44,7 +44,9 @@ sh 22G_preprocess.sh
 # perform downstream analysis and generate various analysis graphics
 sh 22G_analyze.sh
 ```
-**Note:** The examples in this project require approximately **530GB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [doc]() for manual setup.
+**Note 1:** The examples in this project require approximately **530GB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [doc]() for manual setup.
+
+**Note 2:** It is recommended to independently compose a suitable workflow for applying preprocessing tool and to use or import the analysis tool accordingly. The two main programs are located in the `src/` directory, namely `srna_preprocess.py` and `srna_analysis.py`. The analysis tool will additionally require two additional modules: `utility.py` and `computation.py`. For detailed usage instructions, please refer to the [doc]().
 
 ## Web Tool:
 
