@@ -427,6 +427,11 @@ def norm_factor(df, M=1000000, digit=5):
 # Read Count Normalization #
 ############################
 def normalize(df, factor):
+    if factor=='RPM':
+        try:
+            factor = round(1000000/df['read_count'].sum(), 5)
+        except:
+            factor = 0
     df['read_count'] = df['read_count']*float(factor)
     cmt = "# normalize={}\n".format(factor)
     return df, cmt
