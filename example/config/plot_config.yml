@@ -1,11 +1,10 @@
 # If you are using a "relative path" below, 
 # you need to define the base path of the project.
-BASE_DIR: /media/disk1/ryan/sRNAanalyzer/example
+BASE_DIR: /<PATH>/sRNAanalyzer/example
 #============================================
 # Density Analysis
 Density:
   plot: True
-  fig_path: output/analyze/fig/
   title: 22G-RNA Density Distribution
   data:
     - name: WAGO1_IP_WT
@@ -19,11 +18,11 @@ Density:
     - UTR5
     - CDS
     - UTR3
+  fig_path: output/analyze/fig/
 #============================================
 # Metagene Analysis
 Metagene:
   plot: True
-  fig_path: output/analyze/fig/
   title: 22G-RNA Metagene Distribution
   data:
     - name: WAGO1_IP_WT
@@ -33,11 +32,11 @@ Metagene:
   filter:
     - name: WAGO-1_target
     - name: CSR-1_target
+  fig_path: output/analyze/fig/
 #============================================
 # Head/Tail Analysis
 Head:
   plot: True
-  fig_path: output/analyze/fig/
   title: 22G-RNA Head Distribution
   data:
     - name: WAGO1_IP_WT
@@ -47,10 +46,10 @@ Head:
   filter:
     - name: WAGO-1_target
     - name: CSR-1_target
+  fig_path: output/analyze/fig/
 
 Tail:
   plot: True
-  fig_path: output/analyze/fig/
   title: 22G-RNA Tail Distribution
   data:
     - name: WAGO1_IP_WT
@@ -60,11 +59,11 @@ Tail:
   filter:
     - name: WAGO-1_target
     - name: CSR-1_target
+  fig_path: output/analyze/fig/
 #============================================
 # Start/Stop Codon Analysis
 Start_Codon:
   plot: True
-  fig_path: output/analyze/fig/
   title: 22G-RNA Start-Codon Distribution
   data:
     - name: WAGO1_IP_WT
@@ -74,10 +73,10 @@ Start_Codon:
   filter:
     - name: WAGO-1_target
     - name: CSR-1_target
+  fig_path: output/analyze/fig/
 
 Stop_Codon:
   plot: True
-  fig_path: output/analyze/fig/
   title: 22G-RNA Stop-Codon Distribution
   data:
     - name: WAGO1_IP_WT
@@ -87,11 +86,11 @@ Stop_Codon:
   filter:
     - name: WAGO-1_target
     - name: CSR-1_target
+  fig_path: output/analyze/fig/
 #============================================
 # Fold Change Analysis (Paired-data)
 Fold_Change:
   plot: True
-  fig_path: output/analyze/fig/
   title: 22G-RNA Fold Change
   data: # pairing the "control group" and the "experimental group" in sequence
     - name: WAGO1_IP_WT
@@ -105,12 +104,12 @@ Fold_Change:
     - UTR5
     - CDS
     - UTR3
+  fig_path: output/analyze/fig/
   delete_zero: True
 #============================================
 # Scatter Analysis (Paired-data)
 Scatter:
   plot: True
-  fig_path: output/analyze/fig/
   title: 22G-RNA Scatter
   data: # pairing the "control group" and the "experimental group" in sequence
     - name: WAGO1_IP_WT
@@ -128,4 +127,5 @@ Scatter:
     - UTR5
     - CDS
     - UTR3
+  fig_path: output/analyze/fig/
 #============================================
