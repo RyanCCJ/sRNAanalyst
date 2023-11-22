@@ -2,12 +2,13 @@
 A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Species, Conditions, and Target Genes
 
 ## Main Features
-### Universal Preprocessing Tool:
+**1. Universal Preprocessing Tool**  
 - Provides a versatile preprocessing tool that seamlessly integrates with various utilities such as Cutadapt and Bowtie, enabling the construction of customized preprocessing workflows.
 
-### Downstream Analysis Tool:
+**2. Downstream Analysis Tool**  
 - Facilitates transcriptome-wide examination of NGS sequences under specific gene lists using several downstream analysis tools.
 
+> [!NOTE]
 > This version incorporates numerous improvements in performance and architecture, including the addition of a new preprocessing workflow. For information on the previous version and related research paper, please refer to the [RDT](https://github.com/RyanCCJ/RDT) project.
 
 ## Downstream Tools
@@ -49,7 +50,8 @@ sh 22G_analyze.sh
 
 It is recommended to independently compose a suitable workflow for applying preprocessing tool and to use or import the analysis tool accordingly. The two main programs are located in the `src/` directory, namely `srna_preprocess.py` and `srna_analysis.py`. The analysis tool will additionally require two additional modules: `utility.py` and `computation.py`. For detailed usage instructions, please refer to the [doc]().
 
-**Note:** The examples in this project require approximately **530MB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [doc]() for manual setup.
+> [!NOTE]
+> The examples in this project require approximately **530MB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [doc]() for manual setup.
 
 ## Web Tool
 
@@ -66,7 +68,8 @@ If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.nc
 3. **Database Page:**
 - Includes literature data such as NGS raw-read, reference, and a portion of the nematode target list for reference.
 
-**Note:** All uploaded data and analysis results will be retained for only **3 days**. Please make sure to record your job ID. If you have additional requirements, consider exploring our [Docker version]().
+> [!NOTE]
+> All uploaded data and analysis results will be retained for only **3 days**. Please make sure to record your job ID. If you have additional requirements, consider exploring our [Docker version]().
 
 ## Documentation
 To see full documentation, please check this project's [wiki](https://github.com/RyanCCJ/sRNAnalyzer/wiki).
@@ -82,7 +85,8 @@ To see full documentation, please check this project's [wiki](https://github.com
 - tqdm >= 4.0
 - PyYAML >= 5.3
 - statannot = 0.2.3  
-(Please refer to the [doc]() for some important considerations.)
+> [!IMPORTANT]
+> There are some bugs in the [statannot](https://github.com/webermarcolivier/statannot) package. Before usage, please refer to the [doc]() for more details.
 
 ## LICENSE
 Please refer to our [MIT license](https://github.com/RyanCCJ/sRNAnalyzer/blob/master/LICENSE).
