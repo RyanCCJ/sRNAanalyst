@@ -236,7 +236,7 @@ if __name__ == '__main__':
 
     # arguments
     parser = argparse.ArgumentParser(
-        description="This program is a to analyze NGS-Seq.",
+        description="This program is for analyzing NGS-Seq.",
     )
     parser.add_argument("-v", "--version",
                         action="version",
