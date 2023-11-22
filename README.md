@@ -86,7 +86,7 @@ To see full documentation, please check this project's [wiki](https://github.com
 - PyYAML >= 5.3
 - statannot = 0.2.3  
 > [!IMPORTANT]
-> There are some bugs in the [statannot](https://github.com/webermarcolivier/statannot) package. Before usage, please refer to the [doc]() for more details.
+> There are some bugs in the [statannot](https://github.com/webermarcolivier/statannot) package. Before usage, please refer to the [doc](https://github.com/RyanCCJ/sRNAanalyzer/wiki/1.--Install-and-Prepare-Data#important-issue) for more details.
 
 ## LICENSE
 Please refer to our [MIT license](https://github.com/RyanCCJ/sRNAnalyzer/blob/master/LICENSE).
