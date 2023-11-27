@@ -77,13 +77,19 @@ To see full documentation, please check this project's [wiki](https://github.com
 ## Requirements
 - Python >= 3.5
 - numpy >= 1.12
-- seaborn >= 0.9
+- seaborn >= 0.9, < 0.12
 - matplotlib >= 2.2
-- pandas >= 0.23
+- pandas >= 0.23, < 2.0
 - pysam >= 0.20
 - scipy >= 1.1
 - tqdm >= 4.0
 - PyYAML >= 5.3
+
+### Box-plot statistical test
+If Python >= 3.6
+- statannotations >= 0.6.0
+
+If Python >= 3.5, < 3.6
 - statannot = 0.2.3  
 > [!IMPORTANT]
 > There are some bugs in the [statannot](https://github.com/webermarcolivier/statannot) package. Before usage, please refer to the [doc](https://github.com/RyanCCJ/sRNAanalyzer/wiki/1.--Install-and-Prepare-Data#important-issue) for more details.
