@@ -410,7 +410,7 @@ def box_plot(
                     else:
                         ax.set_title(orignal_columns[i] + '\n'*len(pairs)*2 )
                     
-                    python_version = float(sys.version.split()[0].split('.')[1])
+                    python_version = int(sys.version.split()[0].split('.')[1])
                     if python_version < 6 : # Python3.6
                         from statannot import add_stat_annotation
                         add_stat_annotation(ax, data=sub_df, x=x, y='value', hue=hue,
@@ -421,7 +421,7 @@ def box_plot(
                         annot = Annotator(ax, pairs, data=sub_df, x=x, y='value', hue=hue)
                         annot.configure(test=test_method, text_format=test_format, loc='outside', verbose=0)
                         annot.apply_and_annotate()
-                        
+
                 except ValueError as error:
                     print("[Error] {}".format(error))
     
