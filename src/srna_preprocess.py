@@ -8,9 +8,9 @@
 import argparse
 import os
 import pysam
+import re
 import sys
 import time
-import numpy as np
 import pandas as pd
 
 __version__ = "version 1.0"
@@ -114,7 +114,10 @@ def read_data(data, fasta_field=None, MD_tool=None):
             tmp_df = df['read_id'].str.split('|', expand=True)
             if 1 in tmp_df.columns:
                 df['read_id'] = tmp_df[0]
-                df['read_count'] = tmp_df[1].astype(int)
+                try:
+                    df['read_count'] = tmp_df[1].astype(int)
+                except:
+                    df['read_count'] = 1
             else:
                 df['read_count'] = 1
             del tmp_df
@@ -140,13 +143,15 @@ def read_data(data, fasta_field=None, MD_tool=None):
 
             bamfile = pysam.AlignmentFile(data, 'rb')
             fields = {  
-                'read_seq': [],    # segment SEQuence
-                'read_id': [],     # Query template NAME
-                'ref_id': [],      # References sequence NAME
-                'target_pos': [],  # 0-based leftmost mapping POSition
-                'score': [],       # MAPping Quality
+                'read_seq': [],    # segment sequence
+                'read_id': [],     # query template name
+                'ref_id': [],      # references sequence name
+                'target_pos': [],  # 0-based leftmost coordinate
+                'end_pos':[],      # rightmost coordinate
+                'score': [],       # mapping quality
                 'CIGAR': [],       # CIGAR string
                 'MD': [],          # MD string
+                'flag': [],        # bitwise FLAG
             }
 
             MD = True if (MD_tool!=None) else False
@@ -155,8 +160,10 @@ def read_data(data, fasta_field=None, MD_tool=None):
                 fields['read_id'].append(read.query_name)
                 fields['ref_id'].append(read.reference_name)
                 fields['target_pos'].append(read.reference_start)
+                fields['end_pos'].append(read.reference_end)
                 fields['score'].append(read.mapping_quality)
                 fields['CIGAR'].append(read.cigarstring)
+                fields['flag'].append(read.flag)
                 if MD:
                     try: fields['MD'].append(read.get_tag("MD"))
                     except: MD = False
@@ -165,10 +172,14 @@ def read_data(data, fasta_field=None, MD_tool=None):
             
             if not MD: del fields['MD']
             df = pd.DataFrame.from_dict(fields)
+
+            # get strand
+            df['strand'] = '+'
+            df.loc[((df['flag']==16)|(df['flag']==272)), 'strand'] = '-'
+            del df['flag']
             
             # get position (0-based)
             df['init_pos'] = df['target_pos'].astype(int) + 1
-            df['end_pos'] = df['target_pos'] + df['read_seq'].str.len()
             del df['target_pos']
 
             # check if read_count is in read_id
@@ -204,7 +215,7 @@ def read_data(data, fasta_field=None, MD_tool=None):
                 17: 'MD1',
                 18: 'MD2',
             }
-            main_index = [0,2,3,4,5,9]
+            main_index = [0,1,2,3,4,5,9]
             if MD_tool == 'BWA':
                 optional_index = [14,15]
             elif MD_tool == 'Bowtie2':
@@ -217,11 +228,18 @@ def read_data(data, fasta_field=None, MD_tool=None):
             except:
                 df = pd.read_csv(data, comment='@', sep='\t', header=None, usecols=main_index)
             df = df.rename(columns=sam_dict)
+
+            # get strand
+            df['strand'] = '+'
+            df.loc[((df['flag']==16)|(df['flag']==272)), 'strand'] = '-'
+            del df['flag']
             
             # get position (1-based)
             df['init_pos'] = df['target_pos'].astype(int)
-            df['end_pos'] = df['target_pos'] + df['read_seq'].str.len() - 1
+            df['length'] = df['CIGAR'].apply(lambda x: sum([int(len) for len in re.findall(r'(\d+)[MD]', x)]))
+            df['end_pos'] = df['init_pos'] + df['length'] - 1
             del df['target_pos']
+            del df['length']
 
             # get MD field
             if 'MD1' in df.columns and 'MD2' in df.columns:
@@ -427,11 +445,6 @@ def norm_factor(df, M=1000000, digit=5):
 # Read Count Normalization #
 ############################
 def normalize(df, factor):
-    if factor=='RPM':
-        try:
-            factor = round(1000000/df['read_count'].sum(), 5)
-        except:
-            factor = 0
     df['read_count'] = df['read_count']*float(factor)
     cmt = "# normalize={}\n".format(factor)
     return df, cmt

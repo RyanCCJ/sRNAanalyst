@@ -15,6 +15,9 @@ import pandas as pd
 import seaborn as sns
 import sys
 from tqdm import tqdm
+from statannot import add_stat_annotation
+# for python>=3.6
+# from statannotations.Annotator import Annotator
 
 #########################
 # Analyze Single Region #
@@ -316,9 +319,11 @@ def box_plot(
         df = d['dataframe']
         df = df.melt(id_vars=['ref_id'], value_vars=columns, var_name='region')
         df = df.dropna().reset_index(drop=True)
+        df['region'] = df['region'].str.split('_',expand=True)[0]
         df['data'] = d['name']
         tmp_df = pd.concat([tmp_df,df])
     tmp_df = tmp_df.reset_index(drop=True)
+    columns = orignal_columns
 
     # merge dataframe with different filters
     plot_df = pd.DataFrame()
@@ -339,30 +344,26 @@ def box_plot(
 
     sns.set(style=style)
     ax_num = 1 if condition==1 else len(columns)
-    fig, axes = plt.subplots(1, ax_num, figsize=(6+3*ax_num, 5), dpi=200, sharey=True)
+    fig, axes = plt.subplots(1, ax_num, figsize=(1+5*ax_num, 5), dpi=200, sharey=True)
 
     # set limit for y-ticks
     max_yticks, min_yticks = 0,0
     for i in range(ax_num):
         sub_df = plot_df if condition==1 else plot_df[ plot_df['region']==columns[i] ]
         x_lst = sub_df[x].drop_duplicates().to_list()
-        h_lst = sub_df[hue].drop_duplicates().to_list() if (condition==4) else [False]
         for j in range(len(x_lst)):
-            for k in range(len(h_lst)):
-                tmp = sub_df[ sub_df[x]==x_lst[j] ]
-                if h_lst[k]:
-                    tmp = tmp[ tmp[hue]==h_lst[k] ]
-                max_val = tmp['value'].max()
-                min_val = tmp['value'].min()
-                q1 = tmp['value'].quantile(0.25)
-                q3 = tmp['value'].quantile(0.75)
-                iqr = q3 - q1
-                upper_limit = q3 + 1.5 * iqr
-                upper_limit = max_val if max_val < upper_limit else upper_limit
-                lower_limit = q1 - 1.5 * iqr
-                lower_limit = min_val if min_val > lower_limit else lower_limit
-                max_yticks = upper_limit if upper_limit > max_yticks else max_yticks
-                min_yticks = lower_limit if lower_limit < min_yticks else min_yticks
+            tmp = sub_df[ sub_df[x]==x_lst[j] ]
+            max_val = tmp['value'].max()
+            min_val = tmp['value'].min()
+            q1 = tmp['value'].quantile(0.25)
+            q3 = tmp['value'].quantile(0.75)
+            iqr = q3 - q1
+            upper_limit = q3 + 1.5 * iqr
+            upper_limit = max_val if max_val < upper_limit else upper_limit
+            lower_limit = q1 - 1.5 * iqr
+            lower_limit = min_val if min_val > lower_limit else lower_limit
+            max_yticks = upper_limit if upper_limit > max_yticks else max_yticks
+            min_yticks = lower_limit if lower_limit < min_yticks else min_yticks
     ymax = max_yticks + 0.05*(max_yticks-min_yticks)
     ymin = min_yticks - 0.05*(max_yticks-min_yticks)
     plt.ylim(ymin, ymax)
@@ -383,7 +384,10 @@ def box_plot(
                 ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
             else:
                 ax.get_legend().remove()
-        ax.set_title(orignal_columns[i])
+        if ax_num==1:
+            ax.set_title('')
+        else:
+            ax.set_title(orignal_columns[i])
 
         # add test to axes
         add_test = False
@@ -406,22 +410,19 @@ def box_plot(
                         #pairs = [tuple((x, hue) for x in pair) for pair in pairs for hue in hue_labels]
                         hue_labels = list(itertools.combinations(hue_labels, 2))
                         pairs = [tuple((xtick, h) for h in hue) for hue in hue_labels for xtick in xticks]
-                        ax.set_title(orignal_columns[i] + '\n'*(len(pairs)-((len(xticks)-1)*len(hue_labels)))*2 )
+                        ax_title = orignal_columns[i] + '\n'*(len(pairs)-((len(xticks)-1)*len(hue_labels)))*2
                     else:
-                        ax.set_title(orignal_columns[i] + '\n'*len(pairs)*2 )
-                    
-                    python_version = int(sys.version.split()[0].split('.')[1])
-                    if python_version < 6 : # Python3.6
-                        from statannot import add_stat_annotation
-                        add_stat_annotation(ax, data=sub_df, x=x, y='value', hue=hue,
-                                            box_pairs=pairs, loc='outside', verbose=0,
-                                            test=test_method, text_format=test_format)
-                    else:
-                        from statannotations.Annotator import Annotator
-                        annot = Annotator(ax, pairs, data=sub_df, x=x, y='value', hue=hue)
-                        annot.configure(test=test_method, text_format=test_format, loc='outside', verbose=0)
-                        annot.apply_and_annotate()
+                        ax_title = orignal_columns[i] + '\n'*len(pairs)*2
+                    if ax_num!=1:
+                        ax.set_title(ax_title)
 
+                    add_stat_annotation(ax, data=sub_df, x=x, y='value', hue=hue,
+                                        box_pairs=pairs, loc='outside', verbose=0,
+                                        test=test_method, text_format=test_format)
+                    # for python>=3.6
+                    #annot = Annotator(ax, pairs, data=sub_df, x=x, y='value', hue=hue)
+                    #annot.configure(test=test_method, text_format=test_format, loc='outside', verbose=0)
+                    #annot.apply_and_annotate()
                 except ValueError as error:
                     print("[Error] {}".format(error))
     
@@ -435,7 +436,10 @@ def box_plot(
             ax.set_xticklabels([ xticks_dict[xtick.get_text()] for xtick in ax.get_xticklabels() ], fontsize=10)
     
     if title:
-        fig.suptitle(title, y=-0.05, fontsize=16)
+        if detail:
+            fig.suptitle(title, y=-0.07, fontsize=16)
+        else:
+            fig.suptitle(title, y=0.01, fontsize=16)
     
     # change gap size between subplots
     plt.subplots_adjust(wspace=0.1)
@@ -544,7 +548,7 @@ def line_plot(
 
     # plot figure
     sns.set(style=style)
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True, figsize=(8,12), dpi=200)
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True, figsize=(7,12), dpi=200)
     ax1 = sns.lineplot(ax=ax1, data=plot_df, x='index', y='ratio', hue=hue, style=hue2, palette=color, ci=None)
     ax2 = sns.lineplot(ax=ax2, data=plot_df, x='index', y='avg', hue=hue, style=hue2, palette=color, ci=None)
     ax3 = sns.lineplot(ax=ax3, data=plot_df, x='index', y='avg_dis', hue=hue, style=hue2, palette=color, ci=None)
@@ -610,6 +614,7 @@ def scatter_plot(
     show_others=False,# show other values which not in filters
     style='darkgrid', # backgroud style of figure
     color='deep',     # color palette of figure
+    BCV=None,         # biological coefficient of variation 
 ):
     # determine the condition
     # 1. One-One:     data(1) and filter(1)
@@ -653,6 +658,7 @@ def scatter_plot(
                     columns = d['dataframe'].columns.tolist()
             columns.remove('ref_id')
     orignal_columns = [col.split('_')[0] for col in columns]
+
     
     # merge different dataframes frome wide-format to long-format
     tmp_df = pd.DataFrame()
@@ -660,12 +666,13 @@ def scatter_plot(
         df = d['dataframe']
         tmp_df2 = pd.DataFrame()
         for col in orignal_columns:
-            df2 = df[['ref_id',col+'_count',col+'_count_y',col+'_filter']]
-            df2 = df2.rename(columns={
+            new_columns = {
                 col+'_count': 'x',
                 col+'_count_y': 'y',
                 col+'_filter': 'filter'
-                })
+            }
+            df2 = df[['ref_id',col+'_count',col+'_count_y',col+'_filter']]
+            df2 = df2.rename(columns=new_columns)
             df2['region'] = col
             df2 = df2.dropna().reset_index(drop=True)
             tmp_df2 = pd.concat([tmp_df2,df2])
@@ -675,8 +682,9 @@ def scatter_plot(
     
     # merge dataframe with different filters
     plot_df = pd.DataFrame()
-    invalid_df = tmp_df[tmp_df['filter']=='invalid'].reset_index(drop=True)
-    valid_df = tmp_df[tmp_df['filter']=='valid'].reset_index(drop=True)
+    valid = 'p < 0.05' if (BCV and BCV!='None') else 'valid'
+    invalid_df = tmp_df[tmp_df['filter']!=valid].reset_index(drop=True)
+    valid_df = tmp_df[tmp_df['filter']==valid].reset_index(drop=True)
     valid_df['others'] = True
     if filter:
         for f in filter:
@@ -690,7 +698,7 @@ def scatter_plot(
             plot_df = pd.concat([df,plot_df])
     else:
         plot_df = valid_df
-    plot_df = pd.concat([invalid_df,plot_df]).reset_index(drop=True)
+    plot_df = pd.concat([invalid_df,plot_df]).reset_index(drop=True) 
 
     if scale=='log2':
         for col in ['x','y']:
@@ -702,7 +710,7 @@ def scatter_plot(
     # plot figure
     sns.set(style=style)
     ax_num = 1 if condition==1 else len(columns)
-    fig = plt.figure(figsize=(1+4*ax_num, 5), dpi=200)
+    fig = plt.figure(figsize=(1+5*ax_num, 5), dpi=200)
     for i in range(ax_num):
         sub_df = plot_df if condition==1 else plot_df[ plot_df['region']==orignal_columns[i] ]
         ax = fig.add_subplot(1,ax_num,i+1)
@@ -731,4 +739,4 @@ def scatter_plot(
 
     return fig, plot_df
     
-    
+
