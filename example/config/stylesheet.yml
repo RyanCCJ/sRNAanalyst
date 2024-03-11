@@ -33,7 +33,7 @@ Box_Plot:
 
   # Determine the scale of y-axis.
   # eg. normal, log2, log10
-  scale: normal
+  scale: log10
 
   # Determine which testing method to use.
   # eg. None, U-test, T-test
@@ -70,6 +70,12 @@ Scatter_Plot:
   # Determine which condition should be set as x-axis.
   # eg. 1, 2
   x_axis: 1
+
+  # BCV is the coefficient of variation with which the true abundance of the gene varies between replicates. 
+  # Check the document (2.9 and 2.12) below for more details.
+  # https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf
+  # eg. None, or 0.1 for model organisms
+  BCV: None
 
   # Add values which not in filters
   show_others: False

@@ -1,6 +1,6 @@
 # If you are using a "relative path" below, 
 # you need to define the base path of the project.
-BASE_DIR: /<PATH>/sRNAanalyzer/example
+BASE_DIR: /<PATH>/sRNAanalyst/example
 #============================================
 # Density Analysis
 Density:
