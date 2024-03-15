@@ -1,5 +1,5 @@
-# sRNAanalyzer
-A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Species, Conditions, and Target Genes
+# sRNAanalyst
+A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Conditions and Target Genes
 
 ## Main Features
 **1. Universal Preprocessing Tool**  
@@ -35,8 +35,8 @@ A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Species, Cond
 ## Getting Start
 ```sh
 # download this project
-git clone https://github.com/RyanCCJ/sRNAanalyzer.git
-cd sRNAanalyzer
+git clone https://github.com/RyanCCJ/sRNAanalyst.git
+cd sRNAanalyst
 
 # an example of worm (C.elegans) 22G-RNAs is provided
 cd example/script/
@@ -55,7 +55,7 @@ It is recommended to independently compose a suitable workflow for applying prep
 
 ## Web Tool
 
-If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.ncku.edu.tw/sRNAanalyzer/).
+If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.ncku.edu.tw/sRNAanalyst/).
 
 1. **Preprocess Page:**
 - Provides a user-friendly workflow for customizing preprocessing steps.
@@ -72,7 +72,7 @@ If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.nc
 > All uploaded data and analysis results will be retained for only **3 days**. Please make sure to record your job ID. If you have additional requirements, consider exploring our [Docker version]().
 
 ## Documentation
-To see full documentation, please check this project's [wiki](https://github.com/RyanCCJ/sRNAnalyzer/wiki).
+To see full documentation, please check this project's [wiki](https://github.com/RyanCCJ/sRNAnalyst/wiki).
 
 ## Requirements
 - Python >= 3.5
@@ -84,6 +84,13 @@ To see full documentation, please check this project's [wiki](https://github.com
 - scipy >= 1.1
 - tqdm >= 4.0
 - PyYAML >= 5.3
+- rpy2 >= 3.0.5
+
+### EdgeR statistical test
+- R >= 4.3
+- Bioconductor >= 3.18
+- BiocManager >= 1.30.22
+- edgeR >= 4.0.2
 
 ### Box-plot statistical test
 If Python >= 3.6
@@ -92,7 +99,7 @@ If Python >= 3.6
 If Python >= 3.5, < 3.6
 - statannot = 0.2.3  
 > [!IMPORTANT]
-> There are some bugs in the [statannot](https://github.com/webermarcolivier/statannot) package. Before usage, please refer to the [doc](https://github.com/RyanCCJ/sRNAanalyzer/wiki/1.--Install-and-Prepare-Data#important-issue) for more details.
+> There are some bugs in the [statannot](https://github.com/webermarcolivier/statannot) package. Before usage, please refer to the [doc](https://github.com/RyanCCJ/sRNAanalyst/wiki/1.--Install-and-Prepare-Data#important-issue) for more details.
 
 ## LICENSE
-Please refer to our [MIT license](https://github.com/RyanCCJ/sRNAnalyzer/blob/master/LICENSE).
+Please refer to our [MIT license](https://github.com/RyanCCJ/sRNAanalyst/blob/master/LICENSE).
