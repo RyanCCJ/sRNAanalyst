@@ -43,12 +43,25 @@ def read_config(files=None):
 # Merge two Configs on a Key #
 ##############################
 def merge_config(target, source, on):
-    for config_t in target:
-        for config_s in source:
-            if config_t[on]==config_s[on]:
-                config_t.update(config_s)
-                break
+    if target:
+        for config_t in target:
+            for config_s in source:
+                if config_t[on]==config_s[on]:
+                    config_t.update(config_s)
+                    break
     return target
+
+
+####################################
+# Append Run-Config to Plot-Config #
+####################################
+def append_path(target, source, column, tool=None):
+    for i in range(len(target['data'])):
+        if (tool=='boundary') or (tool=='codon'):
+            annot = '_position_{}({}-{})'.format(source['columns'][column],source['limit'][column][0],source['limit'][column][1])
+        else:
+            annot = ''
+        target['data'][i]['path'] = os.path.join(source['csv_path'], target['data'][i]['name'] + annot + '.csv')
 
 
 #################################
@@ -65,6 +78,9 @@ def set_config(config, tool, set_stylesheet=True):
             target = config['plot_config']['Density']['filter'], 
             source = config['samples']['filter'],
             on = 'name')
+        config['run_config']['Density']['BASE_DIR'] = config['run_config']['BASE_DIR']
+        config['plot_config']['Density']['BASE_DIR'] = config['plot_config']['BASE_DIR']
+        config['plot_config']['Density']['fig_path'] += 'Density'
         if set_stylesheet:
             config['plot_config']['Density'].update(config['stylesheet']['General'])
             config['plot_config']['Density'].update(config['stylesheet']['Box_Plot'])
@@ -78,6 +94,9 @@ def set_config(config, tool, set_stylesheet=True):
             target = config['plot_config']['Metagene']['filter'], 
             source = config['samples']['filter'],
             on = 'name')
+        config['run_config']['Metagene']['BASE_DIR'] = config['run_config']['BASE_DIR']
+        config['plot_config']['Metagene']['BASE_DIR'] = config['plot_config']['BASE_DIR']
+        config['plot_config']['Metagene']['fig_path'] += 'Metagene'
         if set_stylesheet:
             config['plot_config']['Metagene'].update(config['stylesheet']['General'])
             config['plot_config']['Metagene'].update(config['stylesheet']['Line_Plot'])
@@ -95,6 +114,11 @@ def set_config(config, tool, set_stylesheet=True):
             target = config['plot_config']['Tail']['filter'], 
             source = config['samples']['filter'],
             on = 'name')
+        config['run_config']['Boundary']['BASE_DIR'] = config['run_config']['BASE_DIR']
+        config['plot_config']['Head']['BASE_DIR'] = config['plot_config']['BASE_DIR']
+        config['plot_config']['Tail']['BASE_DIR'] = config['plot_config']['BASE_DIR']
+        config['plot_config']['Head']['fig_path'] += 'Head'
+        config['plot_config']['Tail']['fig_path'] += 'Tail'
         if set_stylesheet:
             config['plot_config']['Head'].update(config['stylesheet']['General'])
             config['plot_config']['Head'].update(config['stylesheet']['Line_Plot'])
@@ -114,6 +138,11 @@ def set_config(config, tool, set_stylesheet=True):
             target = config['plot_config']['Stop_Codon']['filter'], 
             source = config['samples']['filter'],
             on = 'name')
+        config['run_config']['Codon']['BASE_DIR'] = config['run_config']['BASE_DIR']
+        config['plot_config']['Start_Codon']['BASE_DIR'] = config['plot_config']['BASE_DIR']
+        config['plot_config']['Stop_Codon']['BASE_DIR'] = config['plot_config']['BASE_DIR']
+        config['plot_config']['Start_Codon']['fig_path'] += 'Start_Codon'
+        config['plot_config']['Stop_Codon']['fig_path'] += 'Stop_Codon'
         if set_stylesheet:
             config['plot_config']['Start_Codon'].update(config['stylesheet']['General'])
             config['plot_config']['Start_Codon'].update(config['stylesheet']['Line_Plot'])
@@ -129,6 +158,9 @@ def set_config(config, tool, set_stylesheet=True):
             target = config['plot_config']['Fold_Change']['filter'], 
             source = config['samples']['filter'],
             on = 'name')
+        config['run_config']['Fold_Change']['BASE_DIR'] = config['run_config']['BASE_DIR']
+        config['plot_config']['Fold_Change']['BASE_DIR'] = config['plot_config']['BASE_DIR']
+        config['plot_config']['Fold_Change']['fig_path'] += 'Fold_Change'
         if set_stylesheet:
             config['plot_config']['Fold_Change'].update(config['stylesheet']['General'])
             config['plot_config']['Fold_Change'].update(config['stylesheet']['Box_Plot'])
@@ -142,6 +174,9 @@ def set_config(config, tool, set_stylesheet=True):
             target = config['plot_config']['Scatter']['filter'], 
             source = config['samples']['filter'],
             on = 'name')
+        config['run_config']['Scatter']['BASE_DIR'] = config['run_config']['BASE_DIR']
+        config['plot_config']['Scatter']['BASE_DIR'] = config['plot_config']['BASE_DIR']
+        config['plot_config']['Scatter']['fig_path'] += 'Scatter'
         if set_stylesheet:
             config['plot_config']['Scatter'].update(config['stylesheet']['General'])
             config['plot_config']['Scatter'].update(config['stylesheet']['Scatter_Plot'])
@@ -164,7 +199,10 @@ def run(config, tool):
         metagene_plot(config['run_config']['Metagene'], config['plot_config']['Metagene'])
 
     elif tool=='boundary':
-        position_plot(run_config=config['run_config']['Boundary'],)
+        position_plot(run_config=config['run_config']['Boundary'])
+        if config['run_config']['Boundary']['run']:
+            for i, col in enumerate(['Head','Tail']):
+                append_path(config['plot_config'][col], config['run_config']['Boundary'], i, tool)
         arg = [(None,config['plot_config']['Head']),
                 (None,config['plot_config']['Tail'])]
         pool = multiprocessing.Pool(cpu)
@@ -174,6 +212,9 @@ def run(config, tool):
     
     elif tool=='codon':
         position_plot(run_config=config['run_config']['Codon'])
+        if config['run_config']['Codon']['run']:
+            for i, col in enumerate(['Start_Codon','Stop_Codon']):
+                append_path(config['plot_config'][col], config['run_config']['Codon'], i, tool)
         arg = [(None,config['plot_config']['Start_Codon']),
                 (None,config['plot_config']['Stop_Codon'])]
         pool = multiprocessing.Pool(cpu)
