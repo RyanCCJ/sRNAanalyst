@@ -1,5 +1,5 @@
 # sRNAanalyst
-A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Conditions and Target Genes
+A Comprehensive Tool for In-depth Analysis of sRNA-seq Data across Conditions and Target Genes.
 
 ## Main Features
 **1. Universal Preprocessing Tool**  
@@ -51,7 +51,7 @@ sh 22G_analyze.sh
 It is recommended to independently compose a suitable workflow for applying preprocessing tool and to use or import the analysis tool accordingly. The two main programs are located in the `src/` directory, namely `srna_preprocess.py` and `srna_analysis.py`. The analysis tool will additionally require two additional modules: `utility.py` and `computation.py`. For detailed usage instructions, please refer to the [doc]().
 
 > [!NOTE]
-> The examples in this project require approximately **530MB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files, then refer to the relevant [doc]() for manual setup.
+> The examples in this project require approximately **530MB** of disk space. Please ensure you have sufficient space for operations. Alternatively, you can download only the source code and configuration files.
 
 ## Web Tool
 
@@ -69,12 +69,15 @@ If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.nc
 - Includes literature data such as NGS raw-read, reference, and a portion of the nematode target list for reference.
 
 > [!NOTE]
-> All uploaded data and analysis results will be retained for only **3 days**. Please make sure to record your job ID. If you have additional requirements, consider exploring our [Docker version]().
+> All uploaded data and analysis results will be retained for only **3 days**. Please make sure to record your job ID. If you have additional requirements, consider exploring our [Docker version](https://github.com/RyanCCJ/sRNAanalyst/tree/master/docker).
 
 ## Documentation
 To see full documentation, please check this project's [wiki](https://github.com/RyanCCJ/sRNAnalyst/wiki).
 
 ## Requirements
+Running sRNAanalyzer require Linux or MacOS. Other Unix environments will probably work but have not been tested.  
+Windows users can use [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+
 - Python >= 3.5
 - numpy >= 1.12
 - seaborn >= 0.9, < 0.12
