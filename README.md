@@ -75,8 +75,7 @@ If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.nc
 To see full documentation, please check this project's [wiki](https://github.com/RyanCCJ/sRNAnalyst/wiki).
 
 ## Requirements
-Running sRNAanalyzer require Linux or MacOS. Other Unix environments will probably work but have not been tested.  
-Windows users can use [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+Running sRNAanalyzer require Linux or MacOS. Other Unix environments will probably work but have not been tested. Windows users can use [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 - Python >= 3.5
 - numpy >= 1.12
