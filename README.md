@@ -72,7 +72,7 @@ If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.nc
 > All uploaded data and analysis results will be retained for only **3 days**. Please make sure to record your job ID. If you have additional requirements, consider exploring our [Docker version](https://github.com/RyanCCJ/sRNAanalyst-docker).
 
 ## Documentation
-To see full documentation, please check this project's [wiki](https://github.com/RyanCCJ/sRNAnalyst/wiki).
+To see full documentation, please check this project's [wiki](https://github.com/RyanCCJ/sRNAanalyst/wiki).
 
 ## Requirements
 Running sRNAanalyzer require Linux or MacOS. Other Unix environments will probably work but have not been tested. Windows users can use [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
