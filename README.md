@@ -69,7 +69,7 @@ If you prefer a quick trial, you can explore our [web tool](https://cosbi7.ee.nc
 - Includes literature data such as NGS raw-read, reference, and a portion of the nematode target list for reference.
 
 > [!NOTE]
-> All uploaded data and analysis results will be retained for only **3 days**. Please make sure to record your job ID. If you have additional requirements, consider exploring our [Docker version](https://github.com/RyanCCJ/sRNAanalyst/tree/master/docker).
+> All uploaded data and analysis results will be retained for only **3 days**. Please make sure to record your job ID. If you have additional requirements, consider exploring our [Docker version](https://github.com/RyanCCJ/sRNAanalyst-docker).
 
 ## Documentation
 To see full documentation, please check this project's [wiki](https://github.com/RyanCCJ/sRNAnalyst/wiki).
@@ -86,12 +86,12 @@ Windows users can use [Windows Subsystem for Linux](https://docs.microsoft.com/e
 - pysam >= 0.20
 - scipy >= 1.1
 - tqdm >= 4.0
-- PyYAML >= 5.3
+- oyaml >= 1.0
+- cutadapt >= 2.10
 - rpy2 >= 3.0.5
 
 ### EdgeR statistical test
 - R >= 4.3
-- Bioconductor >= 3.18
 - BiocManager >= 1.30.22
 - edgeR >= 4.0.2
 
