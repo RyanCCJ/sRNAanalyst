@@ -12,12 +12,6 @@ import numpy as np
 import pandas as pd
 import sys
 
-# DEG analysis with R
-from rpy2.robjects import pandas2ri
-from rpy2.robjects.packages import importr
-from rpy2.robjects.conversion import localconverter
-import rpy2.robjects as robjects
-
 ## Main Tools
 
 ################
@@ -474,6 +468,7 @@ def scatter_plot(run_config=None, plot_config=None):
                 show_others=config['show_others'],  # show other values which not in filters
                 style=config['style'],              # backgroud style of figure
                 color=config['color'],              # color palette of figure
+                BCV=config['BCV'],                  # biological coefficient of variation
             )
             fig.savefig(os.path.join(config['BASE_DIR'],"{}_{}.{}".format(config['fig_path'],i,config['fig_format'])), bbox_inches='tight')
         
@@ -589,6 +584,11 @@ def append_config(config, name, path=None, dataframe=None):
 ####################################
 def add_pvalue(data, compare, bcv):
 
+    from rpy2.robjects import pandas2ri
+    from rpy2.robjects.packages import importr
+    from rpy2.robjects.conversion import localconverter
+    import rpy2.robjects as robjects
+
     edgeR = importr('edgeR')
 
     # From Pandas to R
@@ -605,5 +605,5 @@ def add_pvalue(data, compare, bcv):
     with localconverter(robjects.default_converter + pandas2ri.converter):
         df = robjects.conversion.rpy2py(et.rx2('table'))
     df.index.name = 'ref_id'
-
+    
     return df

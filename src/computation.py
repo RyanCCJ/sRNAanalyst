@@ -15,9 +15,10 @@ import pandas as pd
 import seaborn as sns
 import sys
 from tqdm import tqdm
-from statannot import add_stat_annotation
-# for python>=3.6
-# from statannotations.Annotator import Annotator
+if sys.version_info >= (3,6):
+    from statannotations.Annotator import Annotator
+else:
+    from statannot import add_stat_annotation
 
 #########################
 # Analyze Single Region #
@@ -415,14 +416,16 @@ def box_plot(
                         ax_title = orignal_columns[i] + '\n'*len(pairs)*2
                     if ax_num!=1:
                         ax.set_title(ax_title)
+                    
+                    if sys.version_info >= (3,6):    
+                        annot = Annotator(ax, pairs, data=sub_df, x=x, y='value', hue=hue)
+                        annot.configure(test=test_method, text_format=test_format, loc='outside', verbose=0)
+                        annot.apply_and_annotate()
+                    else:
+                        add_stat_annotation(ax, data=sub_df, x=x, y='value', hue=hue,
+                                            box_pairs=pairs, loc='outside', verbose=0,
+                                            test=test_method, text_format=test_format)
 
-                    add_stat_annotation(ax, data=sub_df, x=x, y='value', hue=hue,
-                                        box_pairs=pairs, loc='outside', verbose=0,
-                                        test=test_method, text_format=test_format)
-                    # for python>=3.6
-                    #annot = Annotator(ax, pairs, data=sub_df, x=x, y='value', hue=hue)
-                    #annot.configure(test=test_method, text_format=test_format, loc='outside', verbose=0)
-                    #annot.apply_and_annotate()
                 except ValueError as error:
                     print("[Error] {}".format(error))
     
@@ -658,7 +661,6 @@ def scatter_plot(
                     columns = d['dataframe'].columns.tolist()
             columns.remove('ref_id')
     orignal_columns = [col.split('_')[0] for col in columns]
-
     
     # merge different dataframes frome wide-format to long-format
     tmp_df = pd.DataFrame()
@@ -706,7 +708,7 @@ def scatter_plot(
     elif scale=='log10':
         for col in ['x','y']:
             plot_df[col] = plot_df[col].apply(lambda x: np.log10(x) if x!=0 else x)
-       
+    
     # plot figure
     sns.set(style=style)
     ax_num = 1 if condition==1 else len(columns)
