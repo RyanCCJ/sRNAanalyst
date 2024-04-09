@@ -608,7 +608,7 @@ if __name__ == '__main__':
         output = sys.stderr
     else:
         output = sys.stdout
-    print("Program end with success.", file=output)
+    print("Program end.", file=output)
     print("Time:{:.3f}s".format(time.time()-T), file=output)
 
     
