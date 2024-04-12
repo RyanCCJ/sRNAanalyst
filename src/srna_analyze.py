@@ -308,6 +308,6 @@ if __name__ == '__main__':
         print("Start running Scatter...")
         run(config, 'scatter')
 
-    print("Program end.")
+    print("Program complete.")
     print("Time:{:.3f}s".format(time.time()-T))
     
